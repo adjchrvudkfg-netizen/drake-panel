@@ -245,14 +245,14 @@ input:checked + .slider:before {
     
     <div style="font-size: 9px; color: #777; margin-top: 12px; margin-bottom: 6px; text-transform: uppercase;">MARK STYLE</div>
     <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px;">
-      <button type="button" class="action-btn active">PHANTOM</button>
-      <button type="button" class="action-btn">DREAM</button>
-      <button type="button" class="action-btn">ICE WALL</button>
-      <button type="button" class="action-btn">MOCO</button>
-      <button type="button" class="action-btn">CLU</button>
-      <button type="button" class="action-btn">SHIROU</button>
-      <button type="button" class="action-btn">IRIS</button>
-      <button type="button" class="action-btn">DREKI</button>
+      <button type="button" class="action-btn active" onclick="selectMarker(this)">PHANTOM</button>
+      <button type="button" class="action-btn" onclick="selectMarker(this)">DREAM</button>
+      <button type="button" class="action-btn" onclick="selectMarker(this)">ICE WALL</button>
+      <button type="button" class="action-btn" onclick="selectMarker(this)">MOCO</button>
+      <button type="button" class="action-btn" onclick="selectMarker(this)">CLU</button>
+      <button type="button" class="action-btn" onclick="selectMarker(this)">SHIROU</button>
+      <button type="button" class="action-btn" onclick="selectMarker(this)">IRIS</button>
+      <button type="button" class="action-btn" onclick="selectMarker(this)">DREKI</button>
     </div>
   </div>
 
@@ -318,36 +318,10 @@ input:checked + .slider:before {
     </div>
   </div>
 
-  <!-- 04 GLOO WALL ROTATION -->
+  <!-- 04 FAST REVIVE -->
   <div class="feature-card">
     <div class="feature-header">
-      <span class="feature-title">04 GLOO WALL ROTATION</span>
-      <label class="switch">
-        <input type="checkbox" checked>
-        <span class="slider"></span>
-      </label>
-    </div>
-    <div class="feature-desc">turns your gloo wall to the angle you set.</div>
-
-    <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 12px; margin-bottom: 6px;">
-      <span style="font-size: 9px; color: #777;">WALL ANGLE</span>
-      <span id="gloo-angle-text" style="font-size: 18px; font-weight: bold; color: #fff;">180°</span>
-    </div>
-    
-    <input type="range" id="gloo-range" min="-90" max="180" value="180" step="90" style="width: 100%; accent-color: #fff; cursor: pointer; margin-bottom: 10px;">
-    
-    <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px;">
-      <button type="button" class="action-btn">-90°</button>
-      <button type="button" class="action-btn">0°</button>
-      <button type="button" class="action-btn">+90°</button>
-      <button type="button" class="action-btn active">180°</button>
-    </div>
-  </div>
-
-  <!-- 05 FAST REVIVE -->
-  <div class="feature-card">
-    <div class="feature-header">
-      <span class="feature-title">05 FAST REVIVE</span>
+      <span class="feature-title">04 FAST REVIVE</span>
       <label class="switch">
         <input type="checkbox" checked>
         <span class="slider"></span>
@@ -372,6 +346,11 @@ input:checked + .slider:before {
         </div>
     </div>
     <script>
+    function selectMarker(element) {
+    let buttons = element.parentElement.querySelectorAll('.action-btn');
+    buttons.forEach(btn => btn.classList.remove('active'));
+    element.classList.add('active');
+}
         let currentKey = "";
         function pasteKey() {
             navigator.clipboard.readText().then(text => { document.getElementById('key-input').value = text.trim(); });
