@@ -156,27 +156,134 @@ const htmlPage = `<!DOCTYPE html>
                 </div>
             </div>
             <div id="features-screen" class="screen">
-                <div class="feature-card">
-                    <div class="feature-header">
-                        <span class="feature-title">01 MARKER (ESP)</span>
-                        <label class="switch"><input type="checkbox" checked><span class="slider-switch"></span></label>
-                    </div>
-                    <div class="feature-desc">Marks every enemy on your screen.</div>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-header">
-                        <span class="feature-title">02 AIMPOINT (HEADLOCK)</span>
-                        <label class="switch"><input type="checkbox" checked><span class="slider-switch"></span></label>
-                    </div><div class="feature-desc">Adjust aim height towards head.</div>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-header">
-                        <span class="feature-title">03 FAST REVIVE</span>
-                        <label class="switch"><input type="checkbox" checked><span class="slider-switch"></span></label>
-                    </div>
-                    <div class="feature-desc">Revive teammate instantly.</div>
-                </div>
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+            <div style="font-weight: bold; font-size: 14px; letter-spacing: 1px;">FEATURES</div>
+            <div style="color: #888; font-size: 11px;">5/5</div>
+          </div>
+          <div style="color: #666; font-size: 10px; margin-bottom: 15px;">changes apply from your next match</div>
+
+          <!-- 01 MARKER -->
+          <div class="feature-card">
+            <div class="feature-header">
+              <span class="feature-title">01 MARKER</span>
+              <label class="switch"><input type="checkbox" checked><span class="slider"></span></label>
             </div>
+            <div class="feature-desc">marks every enemy on your screen.</div>
+            <div style="font-size: 9px; color: #777; margin-top: 12px; margin-bottom: 6px; text-transform: uppercase; font-weight: bold;">MARK STYLE</div>
+            <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px;">
+              <button type="button" class="action-btn" style="background:#fff; color:#000; font-size:9px; font-weight:bold; padding:6px 2px;">PHANTOM</button>
+              <button type="button" class="action-btn" style="background:#1a1a1a; color:#888; font-size:9px; padding:6px 2px;">DREAM</button>
+              <button type="button" class="action-btn" style="background:#1a1a1a; color:#888; font-size:9px; padding:6px 2px;">ICE WALL</button>
+              <button type="button" class="action-btn" style="background:#1a1a1a; color:#888; font-size:9px; padding:6px 2px;">MOCO</button>
+              <button type="button" class="action-btn" style="background:#1a1a1a; color:#888; font-size:9px; padding:6px 2px;">CLU</button>
+              <button type="button" class="action-btn" style="background:#1a1a1a; color:#888; font-size:9px; padding:6px 2px;">SHIROU</button>
+              <button type="button" class="action-btn" style="background:#1a1a1a; color:#888; font-size:9px; padding:6px 2px;">IRIS</button>
+              <button type="button" class="action-btn" style="background:#1a1a1a; color:#888; font-size:9px; padding:6px 2px;">DREKI</button>
+            </div>
+          </div>
+
+          <!-- 02 AIMPOINT -->
+          <div class="feature-card">
+            <div class="feature-header">
+              <span class="feature-title">02 AIMPOINT <span style="background:#222; font-size:8px; padding:2px 4px; border-radius:3px; color:#aaa;">NEW</span></span>
+              <label class="switch"><input type="checkbox" checked><span class="slider"></span></label>
+            </div>
+            <div class="feature-desc">moves your aim from the chest toward the head. slide to choose how far.</div>
+            
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 15px; margin-bottom: 8px;">
+              <span style="font-size: 9px; color: #777; font-weight: bold;">AIM HEIGHT</span>
+              <span style="color: #ff4757; font-weight: bold; font-size: 16px;">HEAD 100%</span>
+            </div>
+
+            <!-- Diagram & Slider Container -->
+            <div style="display: flex; gap: 12px; align-items: center; background: #0c0c0c; padding: 10px; border-radius: 6px; border: 1px solid #222;">
+              <!-- Body Diagram Silhouette -->
+              <div style="width: 45px; height: 110px; border: 1px dashed #ff4757; border-radius: 4px; display: flex; flex-direction: column; align-items: center; justify-content: space-between; padding: 4px 0; box-sizing: border-box; background: rgba(255, 71, 87, 0.05);">
+                <div style="width: 14px; height: 14px; border: 2px solid #ff4757; border-radius: 2px; background: #ff4757;"></div>
+                <div style="width: 2px; height: 60px; background: linear-gradient(to bottom, #ff4757, #333);"></div>
+                <div style="width: 20px; height: 10px; border-bottom: 2px solid #333;"></div>
+              </div>
+
+              <!-- Height Levels List -->
+              <div style="flex-grow: 1; display: flex; flex-direction: column; gap: 6px; font-size: 10px; color: #666;">
+                <div style="display: flex; justify-content: space-between; color: #ff4757; font-weight: bold; border-left: 2px solid #ff4757; padding-left: 6px;">
+                  <span>HEAD</span>
+                  <span>100%</span>
+                </div>
+                <div style="display: flex; justify-content: space-between; padding-left: 6px;">
+                  <span>NECK</span>
+                  <span>68%</span>
+                </div>
+                <div style="display: flex; justify-content: space-between; padding-left: 6px;">
+                  <span>SHOULDERS</span>
+                  <span>50%</span>
+                </div>
+                <div style="display: flex; justify-content: space-between; padding-left: 6px;">
+                  <span>UPPER CHEST</span>
+                  <span>30%</span>
+                </div>
+                <div style="display: flex; justify-content: space-between; padding-left: 6px;">
+                  <span>CHEST</span>
+                  <span>0%</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 03 AIM LAG -->
+          <div class="feature-card">
+            <div class="feature-header">
+              <span class="feature-title">03 AIM LAG</span>
+              <label class="switch"><input type="checkbox" checked><span class="slider"></span></label>
+            </div>
+            <div class="feature-desc">freezes the enemy for a moment while you fire or scope, so they're easier to hit.</div>
+            
+            <div style="margin-top: 12px; background: #0c0c0c; padding: 8px 12px; border-radius: 6px; border: 1px solid #222;">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                <span style="font-size: 11px; color: #ccc;">when firing</span>
+                <input type="checkbox" style="accent-color: #555;">
+              </div>
+              <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid #1a1a1a; padding-top: 8px;">
+                <span style="font-size: 11px; color: #ccc;">when scoping</span>
+                <input type="checkbox" checked style="accent-color: #fff;">
+              </div>
+            </div>
+          </div>
+
+          <!-- 04 GLOO WALL ROTATION -->
+          <div class="feature-card">
+            <div class="feature-header">
+              <span class="feature-title">04 GLOO WALL ROTATION</span>
+              <label class="switch"><input type="checkbox" checked><span class="slider"></span></label>
+            </div>
+            <div class="feature-desc">turns your gloo wall to the angle you set.</div>
+            
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 12px;">
+              <span style="font-size: 9px; color: #777; font-weight: bold;">WALL ANGLE</span>
+              <span style="color: #fff; font-weight: bold; font-size: 18px;">180°</span>
+            </div>
+
+            <div style="position: relative; margin: 12px 0;">
+              <input type="range" min="-90" max="180" value="180" style="width: 100%; accent-color: #fff;">
+            </div>
+
+            <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px;">
+              <button type="button" class="action-btn" style="background:#1a1a1a; color:#888; font-size:9px; padding:6px 2px;">-90°</button>
+              <button type="button" class="action-btn" style="background:#1a1a1a; color:#888; font-size:9px; padding:6px 2px;">0°</button>
+              <button type="button" class="action-btn" style="background:#1a1a1a; color:#888; font-size:9px; padding:6px 2px;">+90°</button>
+              <button type="button" class="action-btn" style="background:#fff; color:#000; font-size:9px; font-weight:bold; padding:6px 2px;">180°</button>
+            </div>
+          </div>
+
+          <!-- 05 FAST REVIVE -->
+          <div class="feature-card">
+            <div class="feature-header">
+              <span class="feature-title">05 FAST REVIVE</span>
+              <label class="switch"><input type="checkbox" checked><span class="slider"></span></label>
+            </div>
+            <div class="feature-desc">picks up a knocked teammate in about 0.1 s instead of 3 s.</div>
+          </div>
+        </div>
             <div id="manage-screen" class="screen">
                 <div class="feature-card">
                     <div style="font-size:8px; color:#888;">THIS DEVICE</div>
@@ -297,171 +404,113 @@ const htmlPage = `<!DOCTYPE html>
 app.get('/', (req, res) => { res.send(htmlPage); });
 
 app.post('/api/verify', verifyLimiter, (req, res) => {
-    const { key, deviceInfo } = req.body;
-    if (!key || !deviceInfo) return res.json({ success: false, message: 'Key aur Device Info zaroori hai!' });
+    const { key, device } = req.body;
+    if (!key) return res.status(400).json({ success: false, message: 'Key is required' });
 
-    const keyRow = db.prepare('SELECT * FROM keys WHERE key_code = ?').get(key);
-    if (!keyRow) return res.json({ success: false, message: 'Invalid access key!' });
+    db.get('SELECT * FROM keys WHERE key_code = ?', [key], (err, row) => {
+        if (err || !row) {
+            return res.status(404).json({ success: false, message: 'Invalid key' });
+        }
 
-    const now = new Date();
-    let activated = keyRow.activated_date;
-    let expires = keyRow.expiry_date;
+        const now = new Date();
 
-    if (keyRow.status === 'unused') {
-        const expiryDate = new Date();
-        if (keyRow.duration_type === 'hours') {
-            expiryDate.setTime(now.getTime() + (keyRow.duration_value * 60 * 60 * 1000));
+        // 1. Unused Key: First Time Activation
+        if (row.status === 'unused') {
+            let expiryDate = new Date();
+            if (row.duration_type === 'hours') {
+                expiryDate.setHours(expiryDate.getHours() + parseFloat(row.duration_value));
+            } else {
+                expiryDate.setDate(expiryDate.getDate() + parseFloat(row.duration_value));
+            }
+
+            const actStr = now.toISOString();
+            const expStr = expiryDate.toISOString();
+            const devInfo = device || 'Web Browser';
+
+            db.run(
+                'UPDATE keys SET status = "active", activated_date = ?, expiry_date = ?, device_info = ? WHERE id = ?',
+                [actStr, expStr, devInfo, row.id],
+                (uErr) => {
+                    if (uErr) return res.status(500).json({ success: false, message: 'DB update failed' });
+                    return res.json({
+                        success: true,
+                        key: row.key_code,
+                        activated: actStr,
+                        expires: expStr,
+                        device: devInfo,
+                        status: 'active'
+                    });
+                }
+            );
         } else {
-            expiryDate.setDate(now.getDate() + parseInt(keyRow.duration_value));
-        }
+            // 2. Already Active Key Check
+            const expDate = new Date(row.expiry_date);
+            if (now > expDate) {
+                // Key Expired
+                db.run('UPDATE keys SET status = "expired" WHERE id = ?', [row.id]);
+                return res.status(403).json({ success: false, message: 'Key has expired' });
+            }
 
-        activated = now.toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' });
-        expires = expiryDate.toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' });
-
-        db.prepare(`UPDATE keys SET status = 'active', activated_date = ?, expiry_date = ?, device_info = ? WHERE key_code = ?`)
-          .run(activated, expires, deviceInfo, key);
-    } else {
-        if (keyRow.device_info && keyRow.device_info !== deviceInfo) {
-            return res.json({ success: false, message: 'Yeh Key kisi aur device par registered hai!' });
+            // Key still valid
+            return res.json({
+                success: true,
+                key: row.key_code,
+                activated: row.activated_date,
+                expires: row.expiry_date,
+                device: row.device_info || device || 'Web Browser',
+                status: 'active'
+            });
         }
-        if (new Date(expires) < now) { 
-            return res.json({ success: false, message: 'Key has expired!' }); 
-        }
-    }const updatedRow = db.prepare('SELECT * FROM keys WHERE key_code = ?').get(key);
-    res.json({
-        success: true,
-        key: updatedRow.key_code,
-        activated: updatedRow.activated_date,
-        expires: updatedRow.expiry_date,
-        device: updatedRow.device_info
     });
-});
+});let timerInterval = null;
 
-app.post('/api/reset-device', (req, res) => {
-    const { key } = req.body;
-    db.prepare('UPDATE keys SET status = "unused", activated_date = NULL, expiry_date = NULL, device_info = NULL WHERE key_code = ?').run(key);
-    res.json({ success: true });
-});
+function startDashboardTimer(expiryDateStr) {
+    if (timerInterval) clearInterval(timerInterval);
 
-app.get('/admin', (req, res) => {
-    if (!req.session.isAdmin) {
-        return res.send(`
-            <!DOCTYPE html>
-            <html lang="en">
-            <head>
-                <meta charset="UTF-8">
-                <title>Admin Login - Drake Panel</title>
-                <style>
-                    body { background: #0c0c0c; color: #fff; font-family: sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
-                    .login-box { background: #161616; padding: 30px; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.5); width: 300px; }
-                    input { width: 100%; padding: 10px; margin: 10px 0; background: #222; border: 1px solid #444; color: #fff; border-radius: 4px; box-sizing: border-box; }
-                    button { width: 100%; padding: 10px; background: #ff4757; border: none; color: white; font-weight: bold; border-radius: 4px; cursor: pointer; }
-                    button:hover { background: #ff6b81; }
-                </style>
-            </head>
-            <body>
-                <div class="login-box">
-                    <h2>Admin Login</h2>
-                    <form action="/admin/login" method="POST">
-                        <input type="text" name="username" placeholder="Username" required>
-                        <input type="password" name="password" placeholder="Password" required>
-                        <button type="submit">Login</button>
-                    </form>
-                </div>
-            </body>
-            </html>
-        `);
-    }
+    function updateDisplay() {
+        const now = new Date().getTime();
+        const expiry = new Date(expiryDateStr).getTime();
+        const diff = expiry - now;
 
-    db.all('SELECT * FROM keys ORDER BY id DESC', [], (err, keys) => {
-        if (err) {
-            console.error(err);
-            return res.status(500).send("Database Error");
+        if (diff <= 0) {
+            document.getElementById('time-left-display').innerText = '0H 0M 0S';
+            document.getElementById('time-left-display').style.color = '#ff4757';
+            clearInterval(timerInterval);
+            alert('Your Key has expired!');
+            return;
         }
-        
-        const safeKeys = Array.isArray(keys) ? keys : [];
-        let rowsHtml = safeKeys.map(k => `
-            <tr>
-                <td>${k.key_code}</td>
-                <td>${k.duration_value} ${k.duration_type}</td>
-                <td>${k.status}</td>
-                <td>${k.device_info || 'Not locked'}</td>
-            </tr>
-        `).join('');
 
-        res.send(`
-            <!DOCTYPE html>
-            <html lang="en">
-            <head>
-                <meta charset="UTF-8">
-                <title>Admin Dashboard - Drake Panel</title>
-                <style>
-                    body { background: #0c0c0c; color: #fff; font-family: sans-serif; padding: 20px; }
-                    table { width: 100%; border-collapse: collapse; margin-top: 20px; background: #161616; }
-                    th, td { padding: 12px; border: 1px solid #333; text-align: left; }
-                    th { background: #222; }
-                    .form-box { background: #161616; padding: 20px; border-radius: 8px; margin-bottom: 20px; }
-                    input, select { padding: 8px; margin-right: 10px; background: #222; border: 1px solid #444; color: #fff; border-radius: 4px; }
-                    button { padding: 8px 15px; background: #2ed573; border: none; color: white; font-weight: bold; border-radius: 4px; cursor: pointer; }
-                </style>
-            </head>
-            <body>
-                <h1>Drake Panel - Admin Dashboard</h1>
-                <div class="form-box">
-                    <h3>Generate New Key</h3>
-                    <form action="/admin/generate" method="POST">
-                        <input type="number" name="duration" placeholder="Duration Value" required>
-                        <select name="type">
-                            <option value="days">Days</option>
-                            <option value="hours">Hours</option>
-                        </select>
-                        <input type="number" name="count" placeholder="Count" value="1" required>
-                        <button type="submit">Generate</button>
-                    </form>
-                </div>
-                <h3>Generated Keys</h3>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Key Code</th>
-                            <th>Duration</th>
-                            <th>Status</th>
-                            <th>Device Info</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        ${rowsHtml || '<tr><td colspan="4" style="text-align:center;">No keys found</td></tr>'}
-                    </tbody>
-                </table>
-            </body>
-            </html>
-        `);
+        const hours = Math.floor(diff / (1000 * 60 * 60));
+        const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+        document.getElementById('time-left-display').innerText = `${hours}H ${minutes}M ${seconds}S`;
+    }
+
+    updateDisplay();
+    timerInterval = setInterval(updateDisplay, 1000);
+}
+
+// Key verification request handling function
+function submitKeyLogin(userKey) {
+    fetch('/api/verify', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ key: userKey, device: navigator.userAgent.includes('Mobile') ? 'Mobile Device' : 'Desktop Browser' })
+    })
+    .then(res => res.json())
+    .then(data => {
+        if (data.success) {
+            // Populate Key Info on UI
+            document.getElementById('display-key').innerText = data.key;
+            document.getElementById('info-activated').innerText = new Date(data.activated).toLocaleDateString();
+            document.getElementById('info-expires').innerText = new Date(data.expires).toLocaleDateString();
+            document.getElementById('info-device').innerText = data.device;
+
+            // Start Live Expiry Countdown
+            startDashboardTimer(data.expires);
+        } else {
+            alert(data.message || 'Verification Failed');
+        }
     });
-});
-app.post('/admin/login', (req, res) => {
-    const { username, password } = req.body;
-    const admin = db.prepare('SELECT * FROM admins WHERE username = ? AND password = ?').get(username, password);
-    if (admin) {
-        req.session.isAdmin = true;
-        res.redirect('/admin');
-    } else {
-        res.send('<script>alert("Invalid credentials!"); window.location.href="/admin";</script>');
-    }
-});
-
-app.post('/admin/generate', (req, res) => {
-    if (!req.session.isAdmin) return res.redirect('/admin');
-    const { duration, type, count } = req.body;
-    const insert = db.prepare('INSERT INTO keys (key_code, duration_value, duration_type) VALUES (?, ?, ?)');
-    for (let i = 0; i < count; i++) {
-        const r1 = Math.random().toString(36).substring(2, 6).toUpperCase();
-        const r2 = Math.random().toString(36).substring(2, 6).toUpperCase();
-        const r3 = Math.random().toString(36).substring(2, 6).toUpperCase();
-        const keyString = `DRKE-${r1}-${r2}-${r3}`;
-        try { insert.run(keyString, parseFloat(duration), type); } catch (err) {}
-    }
-    res.redirect('/admin');
-});
-
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => { console.log('Server running on http://localhost:' + PORT); });
+}
