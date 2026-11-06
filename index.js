@@ -345,13 +345,99 @@ app.post('/api/reset-device', (req, res) => {
 
 app.get('/admin', (req, res) => {
     if (!req.session.isAdmin) {
-        return res.send(`<!DOCTYPE html><html><body style="background:#0c0c0c;color:#fff;font-family:monospace;display:flex;justify-content:center;align-items:center;height:100vh;"><form method="POST" action="/admin/login" style="background:#141414;padding:20px;border:1px solid #333;"><h3 style="margin-bottom:10px;">ADMIN LOGIN</h3><input type="text" name="username" placeholder="Username" required style="width:100%;padding:8px;margin-bottom:10px;background:#0c0c0c;border:1px solid #444;color:#fff;"><input type="password" name="password" placeholder="Password" required style="width:100%;padding:8px;margin-bottom:10px;background:#0c0c0c;border:1px solid #444;color:#fff;"><button type="submit" style="width:100%;padding:10px;background:#fff;border:none;font-weight:bold;cursor:pointer;">LOGIN</button></form></body></html>`);
+        return res.send(`
+            <!DOCTYPE html>
+            <html lang="en">
+            <head>
+                <meta charset="UTF-8">
+                <title>Admin Login - Drake Panel</title>
+                <style>
+                    body { background: #0c0c0c; color: #fff; font-family: sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
+                    .login-box { background: #161616; padding: 30px; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.5); width: 300px; }
+                    input { width: 100%; padding: 10px; margin: 10px 0; background: #222; border: 1px solid #444; color: #fff; border-radius: 4px; box-sizing: border-box; }
+                    button { width: 100%; padding: 10px; background: #ff4757; border: none; color: white; font-weight: bold; border-radius: 4px; cursor: pointer; }
+                    button:hover { background: #ff6b81; }
+                </style>
+            </head>
+            <body>
+                <div class="login-box">
+                    <h2>Admin Login</h2>
+                    <form action="/admin/login" method="POST">
+                        <input type="text" name="username" placeholder="Username" required>
+                        <input type="password" name="password" placeholder="Password" required>
+                        <button type="submit">Login</button>
+                    </form>
+                </div>
+            </body>
+            </html>
+        `);
     }
-    const keys = db.prepare('SELECT * FROM keys ORDER BY id DESC').all();
-    let rowsHtml = keys.map(k => `<tr><td>${k.key_code}</td><td>${k.duration_value} ${k.duration_type}</td><td>${k.status}</td><td>${k.device_info || 'Not locked'}</td></tr>`).join('');
-    res.send(adminPage.replace('{{KEY_LIST}}', rowsHtml));
-});
 
+    db.all('SELECT * FROM keys ORDER BY id DESC', [], (err, keys) => {
+        if (err) {
+            console.error(err);
+            return res.status(500).send("Database Error");
+        }
+        
+        const safeKeys = Array.isArray(keys) ? keys : [];
+        let rowsHtml = safeKeys.map(k => `
+            <tr>
+                <td>${k.key_code}</td>
+                <td>${k.duration_value} ${k.duration_type}</td>
+                <td>${k.status}</td>
+                <td>${k.device_info || 'Not locked'}</td>
+            </tr>
+        `).join('');
+
+        res.send(`
+            <!DOCTYPE html>
+            <html lang="en">
+            <head>
+                <meta charset="UTF-8">
+                <title>Admin Dashboard - Drake Panel</title>
+                <style>
+                    body { background: #0c0c0c; color: #fff; font-family: sans-serif; padding: 20px; }
+                    table { width: 100%; border-collapse: collapse; margin-top: 20px; background: #161616; }
+                    th, td { padding: 12px; border: 1px solid #333; text-align: left; }
+                    th { background: #222; }
+                    .form-box { background: #161616; padding: 20px; border-radius: 8px; margin-bottom: 20px; }
+                    input, select { padding: 8px; margin-right: 10px; background: #222; border: 1px solid #444; color: #fff; border-radius: 4px; }
+                    button { padding: 8px 15px; background: #2ed573; border: none; color: white; font-weight: bold; border-radius: 4px; cursor: pointer; }
+                </style>
+            </head>
+            <body>
+                <h1>Drake Panel - Admin Dashboard</h1>
+                <div class="form-box">
+                    <h3>Generate New Key</h3>
+                    <form action="/admin/generate" method="POST">
+                        <input type="number" name="duration" placeholder="Duration Value" required>
+                        <select name="type">
+                            <option value="days">Days</option>
+                            <option value="hours">Hours</option>
+                        </select>
+                        <input type="number" name="count" placeholder="Count" value="1" required>
+                        <button type="submit">Generate</button>
+                    </form>
+                </div>
+                <h3>Generated Keys</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Key Code</th>
+                            <th>Duration</th>
+                            <th>Status</th>
+                            <th>Device Info</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${rowsHtml || '<tr><td colspan="4" style="text-align:center;">No keys found</td></tr>'}
+                    </tbody>
+                </table>
+            </body>
+            </html>
+        `);
+    });
+});
 app.post('/admin/login', (req, res) => {
     const { username, password } = req.body;
     const admin = db.prepare('SELECT * FROM admins WHERE username = ? AND password = ?').get(username, password);
