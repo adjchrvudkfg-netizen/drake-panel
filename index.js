@@ -362,10 +362,12 @@ const htmlPage = `<!DOCTYPE html>
             currentKey = "";
         }
     </script>
-</body>
-</html>`;const adminPage = `<!DOCTYPE html>
-<html lang="en">
-<head>
+</div>
+  </body>
+</html>`; 
+
+const adminPage = `<!DOCTYPE html>
+...
     <meta charset="UTF-8">
     <title>Admin Dashboard</title>
     <style>
