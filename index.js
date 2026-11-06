@@ -80,8 +80,8 @@ const htmlPage = `<!DOCTYPE html>
         .top-bar { display: flex; justify-content: space-between; align-items: center; padding: 15px 20px; border-bottom: 1px solid var(--border-color); }
         .top-bar h1 { font-size: 16px; letter-spacing: 2px; }
         .content { flex: 1; padding: 15px; overflow-y: scroll; padding-bottom: 80px; }
-        .screen { display: none; }
-        .screen.active { display: block; }
+        .screen { display: none; height: 100%; }
+        .screen.active { display: flex; flex-direction: column; height: 100%; overflow-y: auto; }
         .login-container { text-align: center; margin-top: 20px; }
         .input-group { text-align: left; background: var(--card-bg); border: 1px solid var(--border-color); padding: 12px; margin-bottom: 15px; }
         .input-group label { display: block; font-size: 9px; color: var(--text-muted); margin-bottom: 5px; }
@@ -266,20 +266,20 @@ input:checked + .slider:before {
       +
     </div>
   </div>
-            <div id="features-screen" class="screen">
+<div id="features-screen" class="screen">
   <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
-    <div style="font-weight: bold; font-size: 14px; letter-spacing: 1px;">FEATURES</div>
+    <div style="font-weight: bold; font-size: 14px; letter-spacing: 1px; color: #fff;">FEATURES</div>
     <div style="color: #888; font-size: 11px;">5/5</div>
   </div>
   <div style="color: #666; font-size: 10px; margin-bottom: 15px;">changes apply from your next match</div>
 
   <!-- 01 MARKER -->
-  <div class="feature-card">
-    <div class="feature-header">
-      <span class="feature-title">01 MARKER</span>
+  <div style="background: #121212; border: 1px solid #1f1f1f; border-radius: 6px; padding: 12px; margin-bottom: 10px;">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+      <span style="font-weight: bold; font-size: 12px; color: #fff;">01 MARKER</span>
       <label class="switch"><input type="checkbox" checked><span class="slider"></span></label>
     </div>
-    <div class="feature-desc">marks every enemy on your screen.</div>
+    <div style="font-size: 9px; color: #777;">marks every enemy on your screen.</div>
     <div style="font-size:9px; color:#777; margin-top:12px; margin-bottom:6px; text-transform:uppercase;">MARK STYLE</div>
     <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px;">
       <button class="action-btn active" onclick="selectMarker(this)" style="background:#1a1a1a; color:#fff; border:1px solid #333; padding:6px 4px; font-size:9px; border-radius:4px; cursor:pointer;">Phantom</button>
@@ -290,52 +290,32 @@ input:checked + .slider:before {
   </div>
 
   <!-- 02 AIMPOINT -->
-  <div class="feature-card">
-    <div class="feature-header">
-      <span class="feature-title">02 AIMPOINT</span>
+  <div style="background: #121212; border: 1px solid #1f1f1f; border-radius: 6px; padding: 12px; margin-bottom: 10px;">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+      <span style="font-weight: bold; font-size: 12px; color: #fff;">02 AIMPOINT</span>
       <label class="switch"><input type="checkbox" checked><span class="slider"></span></label>
     </div>
-    <div class="feature-desc">locks crosshair smoothly on target.</div>
+    <div style="font-size: 9px; color: #777;">locks crosshair smoothly on target.</div>
   </div>
 
   <!-- 03 FOV -->
-  <div class="feature-card">
-    <div class="feature-header">
-      <span class="feature-title">03 FOV</span>
+  <div style="background: #121212; border: 1px solid #1f1f1f; border-radius: 6px; padding: 12px; margin-bottom: 10px;">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+      <span style="font-weight: bold; font-size: 12px; color: #fff;">03 FOV</span>
       <label class="switch"><input type="checkbox"><span class="slider"></span></label>
     </div>
-    <div class="feature-desc">extends camera field of view.</div>
+    <div style="font-size: 9px; color: #777;">extends camera field of view.</div>
   </div>
 
   <!-- 04 FAST REVIVE -->
-  <div class="feature-card">
-    <div class="feature-header">
-      <span class="feature-title">04 FAST REVIVE</span>
+  <div style="background: #121212; border: 1px solid #1f1f1f; border-radius: 6px; padding: 12px; margin-bottom: 10px;">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+      <span style="font-weight: bold; font-size: 12px; color: #fff;">04 FAST REVIVE</span>
       <label class="switch"><input type="checkbox" checked><span class="slider"></span></label>
     </div>
-    <div class="feature-desc">picks up a knocked teammate instantly.</div>
+    <div style="font-size: 9px; color: #777;">picks up a knocked teammate instantly.</div>
   </div>
 </div>
-            <div id="manage-screen" class="screen">
-    <!-- Telegram Channel Direct Link Card -->
-    <div style="background: #121212; border: 1px solid #1f1f1f; border-radius: 6px; padding: 14px; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center; cursor: pointer;" onclick="window.open('https://t.me/+rd5guGEUyR41MzA1', '_blank')">
-      <div style="display: flex; align-items: center; gap: 10px;">
-        <span style="font-size: 16px;">📢</span>
-        <div>
-          <div style="font-weight: bold; font-size: 12px; color: #fff; letter-spacing: 0.5px;">PAID_PUSH 💯</div>
-          <div style="font-size: 9px; color: #777; margin-top: 2px;">Open official telegram channel</div>
-        </div>
-      </div>
-      <div style="color: #888; font-size: 12px; font-weight: bold;">➔</div>
-    </div>
-
-    <div class="feature-card">
-      <div style="font-size:8px; color:#888;">THIS DEVICE</div>
-      <div id="manage-device-name" style="font-size:12px; font-weight:bold; margin:4px 0;">-</div>
-      <button class="action-btn" onclick="resetDevice()" style="background:#1a1a1a; color:#fff; width:100%; padding:10px; font-weight:bold; margin-bottom:8px; border-radius:4px; border:1px solid #333; cursor:pointer;">RESET DEVICE</button>
-      <button class="action-btn" onclick="logout()" style="background:#3a1515; color:#ff6b6b; width:100%; padding:10px; font-weight:bold; border-radius:4px; border:1px solid #4a1e1e; cursor:pointer;">LOGOUT</button>
-    </div>
-  </div>
         <div class="nav-bar" id="bottom-nav" style="display:none;">
             <button class="nav-item active" onclick="switchTab('home', this)">HOME</button>
             <button class="nav-item" onclick="switchTab('features', this)">FEATURES</button>
@@ -377,21 +357,35 @@ input:checked + .slider:before {
                 document.getElementById('login-error').innerText = data.message;
             }
         }
-        function switchTab(tabName, element) {
-            document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-            document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-            if(tabName === 'home') {
-                document.getElementById('home-screen').classList.add('active');
-                document.getElementById('page-title').innerText = "HOME";
-            } else if(tabName === 'features') {
-                document.getElementById('features-screen').classList.add('active');
-                document.getElementById('page-title').innerText = "FEATURES";
-            } else if(tabName === 'manage') {
-                document.getElementById('manage-screen').classList.add('active');
-                document.getElementById('page-title').innerText = "MANAGE";
-            }
-            element.classList.add('active');
-        }
+       function switchTab(tabName, element) {
+    // 1. Saari screens se active class hatao
+    document.querySelectorAll('.screen').forEach(s => {
+        s.classList.remove('active');
+        s.style.display = 'none';
+    });
+    
+    // 2. Target screen ko find karke active karo aur display block/flex set karo
+    let target = document.getElementById(tabName + '-screen');
+    if (!target) {
+        target = document.getElementById(tabName);
+    }
+    if (target) {
+        target.classList.add('active');
+        target.style.display = 'flex';
+    }
+    
+    // 3. Nav items ki active state update karo
+    document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+    if (element) {
+        element.classList.add('active');
+    }
+    
+    // 4. Top bar title update karo
+    const titleEl = document.getElementById('page-title');
+    if (titleEl) {
+        titleEl.innerText = tabName.toUpperCase();
+    }
+}
         async function resetDevice() {
             const res = await fetch('/api/reset-device', {
                 method: 'POST',
