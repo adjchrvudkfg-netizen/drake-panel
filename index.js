@@ -7,8 +7,13 @@ const rateLimit = require('express-rate-limit');
 const app = express();
 
 // Single Database Connection
-
-
+const db = new sqlite3.Database('drake.db', (err) => {
+  if (err) {
+    console.error('Database opening error: ' + err.message);
+  } else {
+    console.log('Connected to the SQLite database.');
+  }
+});
 // Tables Creation
 db.serialize(() => {
   db.exec(`
