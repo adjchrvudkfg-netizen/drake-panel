@@ -9,7 +9,7 @@
   "dependencies": {
     "express": "^4.19.2",
     "express-session": "^1.18.0",
-    "better-sqlite3": "^9.4.3",
+    "sqlite3": "^5.1.7",
     "helmet": "^7.1.0"
   }
 }

@@ -1,7 +1,14 @@
 const express = require('express');
 const session = require('express-session');
 const helmet = require('helmet');
-const Database = require('better-sqlite3');
+const sqlite3 = require('sqlite3').verbose();
+const db = new sqlite3.Database('./database.db', (err) => {
+  if (err) {
+    console.error('Database opening error: ' + err.message);
+  } else {
+    console.log('Connected to the SQLite database.');
+  }
+});
 const rateLimit = require('express-rate-limit');
 
 const app = express();
