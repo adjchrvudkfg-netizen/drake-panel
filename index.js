@@ -408,7 +408,32 @@ app.get('/', (req, res) => { res.send(htmlPage); });
 app.get('/admin', (req, res) => {
     res.send(adminPage);
 });
+app.post('/admin/generate', express.urlencoded({ extended: true }), (req, res) => {
+    const { duration, type, count } = req.body;
+    
+    const generateKeyString = () => 'DRAKE-' + Math.random().toString(36).substring(2, 10).toUpperCase();
 
+    let stmt = db.prepare(`INSERT INTO keys (key_code, duration_value, duration_type, status) VALUES (?, ?, ?, 'unused')`);
+    
+    for (let i = 0; i < (parseInt(count) || 1); i++) {
+        stmt.run(generateKeyString(), duration, type);
+    }
+    stmt.finalize((err) => {
+        db.all(`SELECT * FROM keys ORDER BY id DESC`, (dbErr, rows) => {
+            let keyRowsHTML = rows.map(row => `
+                <tr>
+                    <td>${row.key_code}</td>
+                    <td>${row.duration_value} ${row.duration_type}</td>
+                    <td>${row.status}</td>
+                    <td>${row.device_info || 'N/A'}</td>
+                </tr>
+            `).join('');
+
+            let renderedPage = adminPage.replace('{{KEY_LIST}}', keyRowsHTML);
+            res.send(renderedPage);
+        });
+    });
+});
 app.post('/api/verify', verifyLimiter, (req, res) => {
     const { key, device } = req.body;
     if (!key) return res.status(400).json({ success: false, message: 'Key is required' });
