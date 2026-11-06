@@ -405,6 +405,10 @@ const adminPage = `<!DOCTYPE html>
 
 app.get('/', (req, res) => { res.send(htmlPage); });
 
+app.get('/admin', (req, res) => {
+    res.send(adminPage);
+});
+
 app.post('/api/verify', verifyLimiter, (req, res) => {
     const { key, device } = req.body;
     if (!key) return res.status(400).json({ success: false, message: 'Key is required' });
