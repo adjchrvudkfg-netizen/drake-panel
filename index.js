@@ -112,6 +112,76 @@ const htmlPage = `<!DOCTYPE html>
         .nav-bar { position: absolute; bottom: 0; left: 0; width: 100%; background: #0f0f0f; border-top: 1px solid var(--border-color); display: flex; justify-content: space-around; padding: 10px 0; z-index: 10; }
         .nav-item { background: none; border: none; color: var(--text-muted); font-size: 9px; cursor: pointer; text-align: center; }
         .nav-item.active { color: var(--text-main); }
+        .feature-card {
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  padding: 12px;
+  margin-bottom: 12px;
+}
+.feature-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.feature-title {
+  font-weight: bold;
+  font-size: 12px;
+  letter-spacing: 0.5px;
+  color: #fff;
+}
+.feature-desc {
+  font-size: 10px;
+  color: var(--text-muted);
+  margin-top: 4px;
+}
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 38px;
+  height: 20px;
+}
+.switch input { opacity: 0; width: 0; height: 0; }
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background-color: #2a2a2a;
+  transition: .3s;
+  border-radius: 4px;
+  border: 1px solid #3a3a3a;
+}
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 14px;
+  width: 14px;
+  left: 2px;
+  bottom: 2px;
+  background-color: #666;
+  transition: .3s;
+  border-radius: 2px;
+}
+input:checked + .slider { background-color: #ffffff; }
+input:checked + .slider:before {
+  transform: translateX(18px);
+  background-color: #000000;
+}
+.action-btn {
+  background: #1a1a1a;
+  color: #888;
+  border: 1px solid #262626;
+  border-radius: 3px;
+  padding: 8px 0;
+  font-size: 9px;
+  font-weight: bold;
+  cursor: pointer;
+}
+.action-btn.active {
+  background: #ffffff;
+  color: #000000;
+  border-color: #ffffff;
+}
     </style>
 </head>
 <body>
@@ -156,134 +226,136 @@ const htmlPage = `<!DOCTYPE html>
                 </div>
             </div>
             <div id="features-screen" class="screen">
-          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
-            <div style="font-weight: bold; font-size: 14px; letter-spacing: 1px;">FEATURES</div>
-            <div style="color: #888; font-size: 11px;">5/5</div>
-          </div>
-          <div style="color: #666; font-size: 10px; margin-bottom: 15px;">changes apply from your next match</div>
+  <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+    <div style="font-weight: bold; font-size: 14px; letter-spacing: 1px;">FEATURES</div>
+    <div style="color: #888; font-size: 11px;">5/5</div>
+  </div>
+  <div style="color: #666; font-size: 10px; margin-bottom: 15px;">changes apply from your next match</div>
 
-          <!-- 01 MARKER -->
-          <div class="feature-card">
-            <div class="feature-header">
-              <span class="feature-title">01 MARKER</span>
-              <label class="switch"><input type="checkbox" checked><span class="slider"></span></label>
-            </div>
-            <div class="feature-desc">marks every enemy on your screen.</div>
-            <div style="font-size: 9px; color: #777; margin-top: 12px; margin-bottom: 6px; text-transform: uppercase; font-weight: bold;">MARK STYLE</div>
-            <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px;">
-              <button type="button" class="action-btn" style="background:#fff; color:#000; font-size:9px; font-weight:bold; padding:6px 2px;">PHANTOM</button>
-              <button type="button" class="action-btn" style="background:#1a1a1a; color:#888; font-size:9px; padding:6px 2px;">DREAM</button>
-              <button type="button" class="action-btn" style="background:#1a1a1a; color:#888; font-size:9px; padding:6px 2px;">ICE WALL</button>
-              <button type="button" class="action-btn" style="background:#1a1a1a; color:#888; font-size:9px; padding:6px 2px;">MOCO</button>
-              <button type="button" class="action-btn" style="background:#1a1a1a; color:#888; font-size:9px; padding:6px 2px;">CLU</button>
-              <button type="button" class="action-btn" style="background:#1a1a1a; color:#888; font-size:9px; padding:6px 2px;">SHIROU</button>
-              <button type="button" class="action-btn" style="background:#1a1a1a; color:#888; font-size:9px; padding:6px 2px;">IRIS</button>
-              <button type="button" class="action-btn" style="background:#1a1a1a; color:#888; font-size:9px; padding:6px 2px;">DREKI</button>
-            </div>
-          </div>
+  <!-- 01 MARKER -->
+  <div class="feature-card">
+    <div class="feature-header">
+      <span class="feature-title">01 MARKER</span>
+      <label class="switch">
+        <input type="checkbox" checked>
+        <span class="slider"></span>
+      </label>
+    </div>
+    <div class="feature-desc">marks every enemy on your screen.</div>
+    
+    <div style="font-size: 9px; color: #777; margin-top: 12px; margin-bottom: 6px; text-transform: uppercase;">MARK STYLE</div>
+    <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px;">
+      <button type="button" class="action-btn active">PHANTOM</button>
+      <button type="button" class="action-btn">DREAM</button>
+      <button type="button" class="action-btn">ICE WALL</button>
+      <button type="button" class="action-btn">MOCO</button>
+      <button type="button" class="action-btn">CLU</button>
+      <button type="button" class="action-btn">SHIROU</button>
+      <button type="button" class="action-btn">IRIS</button>
+      <button type="button" class="action-btn">DREKI</button>
+    </div>
+  </div>
 
-          <!-- 02 AIMPOINT -->
-          <div class="feature-card">
-            <div class="feature-header">
-              <span class="feature-title">02 AIMPOINT <span style="background:#222; font-size:8px; padding:2px 4px; border-radius:3px; color:#aaa;">NEW</span></span>
-              <label class="switch"><input type="checkbox" checked><span class="slider"></span></label>
-            </div>
-            <div class="feature-desc">moves your aim from the chest toward the head. slide to choose how far.</div>
-            
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 15px; margin-bottom: 8px;">
-              <span style="font-size: 9px; color: #777; font-weight: bold;">AIM HEIGHT</span>
-              <span style="color: #ff4757; font-weight: bold; font-size: 16px;">HEAD 100%</span>
-            </div>
+  <!-- 02 AIMPOINT -->
+  <div class="feature-card">
+    <div class="feature-header">
+      <span class="feature-title">02 AIMPOINT <span style="background:#222; font-size:8px; padding:2px 4px; border-radius:2px; color:#aaa; margin-left:4px;">NEW</span></span>
+      <label class="switch">
+        <input type="checkbox" checked>
+        <span class="slider"></span>
+      </label>
+    </div>
+    <div class="feature-desc">moves your aim from the chest toward the head. slide to choose how far.</div>
 
-            <!-- Diagram & Slider Container -->
-            <div style="display: flex; gap: 12px; align-items: center; background: #0c0c0c; padding: 10px; border-radius: 6px; border: 1px solid #222;">
-              <!-- Body Diagram Silhouette -->
-              <div style="width: 45px; height: 110px; border: 1px dashed #ff4757; border-radius: 4px; display: flex; flex-direction: column; align-items: center; justify-content: space-between; padding: 4px 0; box-sizing: border-box; background: rgba(255, 71, 87, 0.05);">
-                <div style="width: 14px; height: 14px; border: 2px solid #ff4757; border-radius: 2px; background: #ff4757;"></div>
-                <div style="width: 2px; height: 60px; background: linear-gradient(to bottom, #ff4757, #333);"></div>
-                <div style="width: 20px; height: 10px; border-bottom: 2px solid #333;"></div>
-              </div>
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 15px; margin-bottom: 10px;">
+      <span style="font-size: 9px; color: #777; font-weight: bold;">AIM HEIGHT</span>
+      <span style="color: #ff4757; font-weight: bold; font-size: 16px;">HEAD <span id="aim-val-display" style="font-size: 20px;">100%</span></span>
+    </div>
 
-              <!-- Height Levels List -->
-              <div style="flex-grow: 1; display: flex; flex-direction: column; gap: 6px; font-size: 10px; color: #666;">
-                <div style="display: flex; justify-content: space-between; color: #ff4757; font-weight: bold; border-left: 2px solid #ff4757; padding-left: 6px;">
-                  <span>HEAD</span>
-                  <span>100%</span>
-                </div>
-                <div style="display: flex; justify-content: space-between; padding-left: 6px;">
-                  <span>NECK</span>
-                  <span>68%</span>
-                </div>
-                <div style="display: flex; justify-content: space-between; padding-left: 6px;">
-                  <span>SHOULDERS</span>
-                  <span>50%</span>
-                </div>
-                <div style="display: flex; justify-content: space-between; padding-left: 6px;">
-                  <span>UPPER CHEST</span>
-                  <span>30%</span>
-                </div>
-                <div style="display: flex; justify-content: space-between; padding-left: 6px;">
-                  <span>CHEST</span>
-                  <span>0%</span>
-                </div>
-              </div>
-            </div>
-          </div>
+    <!-- Interactive Vertical Aim Height Slider Container -->
+    <div style="display: flex; gap: 20px; align-items: center; background: #0c0c0c; padding: 12px; border-radius: 4px; border: 1px solid #1a1a1a;">
+      <!-- Body Silhouette with Head Highlight -->
+      <div style="position: relative; width: 45px; height: 110px; border: 1px dashed #ff4757; border-radius: 4px; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; padding-top: 6px;">
+        <div style="width: 14px; height: 14px; border: 2px solid #ff4757; border-radius: 2px; background: repeating-linear-gradient(45deg, #ff4757, #ff4757 2px, transparent 2px, transparent 4px);"></div>
+        <div style="width: 2px; height: 60px; background: linear-gradient(to bottom, #ff4757, #333); margin-top: 4px;"></div>
+        <div style="width: 20px; height: 10px; border-bottom: 2px solid #ff4757;"></div>
+      </div>
 
-          <!-- 03 AIM LAG -->
-          <div class="feature-card">
-            <div class="feature-header">
-              <span class="feature-title">03 AIM LAG</span>
-              <label class="switch"><input type="checkbox" checked><span class="slider"></span></label>
-            </div>
-            <div class="feature-desc">freezes the enemy for a moment while you fire or scope, so they're easier to hit.</div>
-            
-            <div style="margin-top: 12px; background: #0c0c0c; padding: 8px 12px; border-radius: 6px; border: 1px solid #222;">
-              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
-                <span style="font-size: 11px; color: #ccc;">when firing</span>
-                <input type="checkbox" style="accent-color: #555;">
-              </div>
-              <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid #1a1a1a; padding-top: 8px;">
-                <span style="font-size: 11px; color: #ccc;">when scoping</span>
-                <input type="checkbox" checked style="accent-color: #fff;">
-              </div>
-            </div>
-          </div>
-
-          <!-- 04 GLOO WALL ROTATION -->
-          <div class="feature-card">
-            <div class="feature-header">
-              <span class="feature-title">04 GLOO WALL ROTATION</span>
-              <label class="switch"><input type="checkbox" checked><span class="slider"></span></label>
-            </div>
-            <div class="feature-desc">turns your gloo wall to the angle you set.</div>
-            
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 12px;">
-              <span style="font-size: 9px; color: #777; font-weight: bold;">WALL ANGLE</span>
-              <span style="color: #fff; font-weight: bold; font-size: 18px;">180°</span>
-            </div>
-
-            <div style="position: relative; margin: 12px 0;">
-              <input type="range" min="-90" max="180" value="180" style="width: 100%; accent-color: #fff;">
-            </div>
-
-            <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px;">
-              <button type="button" class="action-btn" style="background:#1a1a1a; color:#888; font-size:9px; padding:6px 2px;">-90°</button>
-              <button type="button" class="action-btn" style="background:#1a1a1a; color:#888; font-size:9px; padding:6px 2px;">0°</button>
-              <button type="button" class="action-btn" style="background:#1a1a1a; color:#888; font-size:9px; padding:6px 2px;">+90°</button>
-              <button type="button" class="action-btn" style="background:#fff; color:#000; font-size:9px; font-weight:bold; padding:6px 2px;">180°</button>
-            </div>
-          </div>
-
-          <!-- 05 FAST REVIVE -->
-          <div class="feature-card">
-            <div class="feature-header">
-              <span class="feature-title">05 FAST REVIVE</span>
-              <label class="switch"><input type="checkbox" checked><span class="slider"></span></label>
-            </div>
-            <div class="feature-desc">picks up a knocked teammate in about 0.1 s instead of 3 s.</div>
-          </div>
+      <!-- Vertical Slider & Labels -->
+      <div style="flex-grow: 1; display: flex; position: relative; height: 110px; align-items: center;">
+        <input type="range" id="aim-height-range" min="0" max="100" value="100" style="position: absolute; width: 110px; height: 4px; transform: rotate(-90deg); transform-origin: 55px 55px; left: -35px; top: 0; accent-color: #ff4757; cursor: pointer;">
+        
+        <div style="margin-left: 60px; display: flex; flex-direction: column; justify-content: space-between; height: 100%; font-size: 9px; color: #666; font-weight: bold;">
+          <div style="color: #ff4757; display: flex; justify-content: space-between; width: 140px;"><span>— HEAD</span><span>100%</span></div>
+          <div style="display: flex; justify-content: space-between; width: 140px;"><span>— NECK</span><span>68%</span></div>
+          <div style="display: flex; justify-content: space-between; width: 140px;"><span>— SHOULDERS</span><span>50%</span></div>
+          <div style="display: flex; justify-content: space-between; width: 140px;"><span>— UPPER CHEST</span><span>30%</span></div>
+          <div style="display: flex; justify-content: space-between; width: 140px;"><span>— CHEST</span><span>0%</span></div>
         </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 03 AIM LAG -->
+  <div class="feature-card">
+    <div class="feature-header">
+      <span class="feature-title">03 AIM LAG</span>
+      <label class="switch">
+        <input type="checkbox" checked>
+        <span class="slider"></span>
+      </label>
+    </div>
+    <div class="feature-desc">freezes the enemy for a moment while you fire or scope, so they're easier to hit.</div>
+    <div style="margin-top: 12px; background: #0e0e0e; padding: 8px 12px; border-radius: 4px; display: flex; flex-direction: column; gap: 8px;">
+      <div style="display: flex; justify-content: space-between; align-items: center; font-size: 11px; color: #ccc;">
+        <span>when firing</span>
+        <label class="switch"><input type="checkbox"><span class="slider"></span></label>
+      </div>
+      <div style="display: flex; justify-content: space-between; align-items: center; font-size: 11px; color: #ccc;">
+        <span>when scoping</span>
+        <label class="switch"><input type="checkbox" checked><span class="slider"></span></label>
+      </div>
+    </div>
+  </div>
+
+  <!-- 04 GLOO WALL ROTATION -->
+  <div class="feature-card">
+    <div class="feature-header">
+      <span class="feature-title">04 GLOO WALL ROTATION</span>
+      <label class="switch">
+        <input type="checkbox" checked>
+        <span class="slider"></span>
+      </label>
+    </div>
+    <div class="feature-desc">turns your gloo wall to the angle you set.</div>
+
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 12px; margin-bottom: 6px;">
+      <span style="font-size: 9px; color: #777;">WALL ANGLE</span>
+      <span id="gloo-angle-text" style="font-size: 18px; font-weight: bold; color: #fff;">180°</span>
+    </div>
+    
+    <input type="range" id="gloo-range" min="-90" max="180" value="180" step="90" style="width: 100%; accent-color: #fff; cursor: pointer; margin-bottom: 10px;">
+    
+    <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px;">
+      <button type="button" class="action-btn">-90°</button>
+      <button type="button" class="action-btn">0°</button>
+      <button type="button" class="action-btn">+90°</button>
+      <button type="button" class="action-btn active">180°</button>
+    </div>
+  </div>
+
+  <!-- 05 FAST REVIVE -->
+  <div class="feature-card">
+    <div class="feature-header">
+      <span class="feature-title">05 FAST REVIVE</span>
+      <label class="switch">
+        <input type="checkbox" checked>
+        <span class="slider"></span>
+      </label>
+    </div>
+    <div class="feature-desc">picks up a knocked teammate in about 0.1 s instead of 3 s.</div>
+  </div>
+</div>
             <div id="manage-screen" class="screen">
                 <div class="feature-card">
                     <div style="font-size:8px; color:#888;">THIS DEVICE</div>
@@ -438,7 +510,9 @@ app.post('/api/verify', verifyLimiter, (req, res) => {
     const { key, device } = req.body;
     if (!key) return res.status(400).json({ success: false, message: 'Key is required' });
 
-    db.get('SELECT * FROM keys WHERE key_code = ?', [key], (err, row) => {
+    const cleanKey = key.trim();
+
+    db.get('SELECT * FROM keys WHERE LOWER(TRIM(key_code)) = LOWER(?)', [cleanKey], (err, row) => {
         if (err || !row) {
             return res.status(404).json({ success: false, message: 'Invalid key' });
         }
@@ -462,7 +536,7 @@ app.post('/api/verify', verifyLimiter, (req, res) => {
                 'UPDATE keys SET status = "active", activated_date = ?, expiry_date = ?, device_info = ? WHERE id = ?',
                 [actStr, expStr, devInfo, row.id],
                 (uErr) => {
-                    if (uErr) return res.status(500).json({ success: false, message: 'DB update failed' });
+                    if (uErr) return res.status(500).json({ success: false, message: 'Database error' });
                     return res.json({
                         success: true,
                         key: row.key_code,
@@ -473,7 +547,7 @@ app.post('/api/verify', verifyLimiter, (req, res) => {
                     });
                 }
             );
-        } else {
+        } else if (row.status === 'active') {
             // 2. Already Active Key Check
             const expDate = new Date(row.expiry_date);
             if (now > expDate) {
@@ -491,9 +565,11 @@ app.post('/api/verify', verifyLimiter, (req, res) => {
                 device: row.device_info || device || 'Web Browser',
                 status: 'active'
             });
+        } else {
+            return res.status(400).json({ success: false, message: 'Key has expired' });
         }
     });
-});let timerInterval = null;
+});
 
 function startDashboardTimer(expiryDateStr) {
     if (timerInterval) clearInterval(timerInterval);
