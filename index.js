@@ -207,24 +207,65 @@ input:checked + .slider:before {
                     </form>
                 </div>
             </div>
-            <div id="home-screen" class="screen">
-                <div class="status-row">
-                    <span style="color:#4caf50;">■ ONLINE</span>
-                    <span>CONNECTED</span>
-                </div>
-                <div class="timer-section">
-                    <div class="time-left-val" id="time-left-display">ACTIVE</div>
-                    <div class="time-left-label">STATUS</div>
-                </div>
-                <div class="key-box">
-                    <span id="display-key">-</span>
-                </div>
-                <div class="info-grid">
-                    <div class="info-card"><span>ACTIVATED</span><strong id="info-activated">-</strong></div>
-                    <div class="info-card"><span>EXPIRES</span><strong id="info-expires">-</strong></div>
-                    <div class="info-card"><span>DEVICE</span><strong id="info-device">-</strong></div>
-                </div>
-            </div>
+          <div id="home-screen" class="screen active">
+  <!-- Top Offline Status & Refresh Info -->
+  <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; font-size: 10px;">
+    <div style="display: flex; align-items: center; gap: 6px; color: #888;">
+      <span style="width: 6px; height: 6px; background: #666; border-radius: 50%; display: inline-block;"></span>
+      OFFLINE
+    </div>
+    <div style="color: #666;">LAST REFRESHED 45 MIN AGO</div>
+  </div>
+
+  <!-- Central Circular Timer / Skull Logo Section -->
+  <div style="position: relative; text-align: center; margin: 25px 0; padding: 20px 0; background: radial-gradient(circle, #181818 0%, #0c0c0c 70%); border-radius: 12px; border: 1px solid #1a1a1a;">
+    <!-- Skull / Phantom Logo Icon -->
+    <div style="display: flex; justify-content: center; margin-bottom: 8px;">
+      <svg width="65" height="65" viewBox="0 0 24 24" fill="#ffffff">
+        <path d="M12 2C6.48 2 2 6.48 2 12c0 2.21.72 4.26 1.94 5.92L3 21l3.08-.94C7.74 21.28 9.79 22 12 22c5.52 0 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-3-9c.83 0 1.5-.67 1.5-1.5S9.83 8 9 8s-1.5.67-1.5 1.5S8.17 11 9 11zm6 0c.83 0 1.5-.67 1.5-1.5S15.83 8 15 8s-1.5.67-1.5 1.5.67 1.5 1.5 1.5zm-3 4.5c2.03 0 3.8-1.11 4.75-2.75-.41-.16-.9-.25-1.41-.25h-6.68c-.51 0-1 .09-1.41.25.95 1.64 2.72 2.75 4.75 2.75z"/>
+      </svg>
+    </div>
+    <div style="font-size: 28px; font-weight: bold; letter-spacing: 2px; color: #fff;" id="timer-display">2H 11M</div>
+    <div style="font-size: 9px; color: #777; letter-spacing: 1px; margin-top: 4px;">TIME LEFT</div>
+  </div>
+
+  <!-- Key Display Box with Copy Button -->
+  <div style="background: #121212; border: 1px solid #1f1f1f; border-radius: 6px; padding: 12px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+    <div>
+      <div style="font-size: 8px; color: #666; margin-bottom: 2px; letter-spacing: 0.5px;">KEY</div>
+      <div style="font-size: 11px; font-weight: bold; color: #fff; letter-spacing: 1px;" id="display-key">PHTM-E9E0-1A89-A3E7</div>
+    </div>
+    <button type="button" onclick="copyKeyText()" style="background: #1a1a1a; color: #fff; border: 1px solid #262626; border-radius: 4px; padding: 6px 12px; font-size: 9px; font-weight: bold; cursor: pointer; display: flex; align-items: center; gap: 4px;">
+      📋 COPY
+    </button>
+  </div>
+
+  <!-- Info Cards Grid (Activated, Expires, Device) -->
+  <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 15px;">
+    <div style="background: #121212; border: 1px solid #1f1f1f; border-radius: 6px; padding: 10px;">
+      <span style="display: block; font-size: 8px; color: #666; margin-bottom: 4px;">ACTIVATED</span>
+      <strong style="font-size: 10px; color: #fff;" id="info-activated">29 Oct 2026</strong>
+    </div>
+    <div style="background: #121212; border: 1px solid #1f1f1f; border-radius: 6px; padding: 10px;">
+      <span style="display: block; font-size: 8px; color: #666; margin-bottom: 4px;">EXPIRES</span>
+      <strong style="font-size: 10px; color: #fff;" id="info-expires">30 Oct 2026</strong>
+    </div>
+    <div style="background: #121212; border: 1px solid #1f1f1f; border-radius: 6px; padding: 10px;">
+      <span style="display: block; font-size: 8px; color: #666; margin-bottom: 4px;">DEVICE</span>
+      <strong style="font-size: 10px; color: #fff; line-height: 1.2;" id="info-device">iPhone 11 Pro Max · iOS</strong>
+    </div>
+  </div>
+
+ <!-- Add Subscription Action Banner -->
+ <div style="background: #121212; border: 1px solid #1f1f1f; border-radius: 6px; padding: 12px; display: flex; justify-content: space-between; align-items: center; cursor: pointer;" onclick="addSubscription()">
+    <div>
+      <div style="font-weight: bold; font-size: 12px; color: #fff; letter-spacing: 0.5px;">ADD SUBSCRIPTION</div>
+      <div style="font-size: 9px; color: #777; margin-top: 2px;">opens your vpn app with your key ready</div>
+    </div>
+    <div style="background: #e0e0e0; color: #000; width: 32px; height: 32px; border-radius: 4px; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 18px;">
+      +
+    </div>
+  </div>
             <div id="features-screen" class="screen">
   <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
     <div style="font-weight: bold; font-size: 14px; letter-spacing: 1px;">FEATURES</div>
@@ -331,6 +372,17 @@ input:checked + .slider:before {
   </div>
 </div>
             <div id="manage-screen" class="screen">
+            <!-- Telegram Channel Direct Link Card -->
+  <div style="background: #121212; border: 1px solid #1f1f1f; border-radius: 6px; padding: 14px; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center; cursor: pointer;" onclick="window.open('https://t.me/+rd5guGEUyR41MzA1', '_blank')">
+    <div style="display: flex; align-items: center; gap: 10px;">
+      <span style="font-size: 16px;">📢</span>
+      <div>
+        <div style="font-weight: bold; font-size: 12px; color: #fff; letter-spacing: 0.5px;">PAID_PUSH 💯</div>
+        <div style="font-size: 9px; color: #777; margin-top: 2px;">Open official telegram channel</div>
+      </div>
+    </div>
+    <div style="color: #888; font-size: 12px; font-weight: bold;">➔</div>
+  </div>
                 <div class="feature-card">
                     <div style="font-size:8px; color:#888;">THIS DEVICE</div>
                     <div id="manage-device-name" style="font-size:12px; font-weight:bold; margin:4px 0;">-</div>
@@ -412,6 +464,14 @@ input:checked + .slider:before {
             document.getElementById('key-input').value = "";
             currentKey = "";
         }
+            function addSubscription() {
+    const keyText = document.getElementById('display-key').innerText;
+    navigator.clipboard.writeText(keyText).then(() => {
+        window.location.href = "happ://";
+    }).catch(err => {
+        window.location.href = "happ://";
+    });
+}
     </script>
 </div>
   </body>
