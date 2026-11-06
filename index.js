@@ -207,7 +207,7 @@ input:checked + .slider:before {
                     </form>
                 </div>
             </div>
-          <div id="home-screen" class="screen active">
+<div id="home-screen" class="screen">
   <!-- Top Offline Status & Refresh Info -->
   <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; font-size: 10px;">
     <div style="display: flex; align-items: center; gap: 6px; color: #888;">
