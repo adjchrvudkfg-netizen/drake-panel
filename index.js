@@ -277,120 +277,65 @@ input:checked + .slider:before {
   <div class="feature-card">
     <div class="feature-header">
       <span class="feature-title">01 MARKER</span>
-      <label class="switch">
-        <input type="checkbox" checked>
-        <span class="slider"></span>
-      </label>
+      <label class="switch"><input type="checkbox" checked><span class="slider"></span></label>
     </div>
     <div class="feature-desc">marks every enemy on your screen.</div>
-    
-    <div style="font-size: 9px; color: #777; margin-top: 12px; margin-bottom: 6px; text-transform: uppercase;">MARK STYLE</div>
+    <div style="font-size:9px; color:#777; margin-top:12px; margin-bottom:6px; text-transform:uppercase;">MARK STYLE</div>
     <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px;">
-      <button type="button" class="action-btn active" onclick="selectMarker(this)">PHANTOM</button>
-      <button type="button" class="action-btn" onclick="selectMarker(this)">DREAM</button>
-      <button type="button" class="action-btn" onclick="selectMarker(this)">ICE WALL</button>
-      <button type="button" class="action-btn" onclick="selectMarker(this)">MOCO</button>
-      <button type="button" class="action-btn" onclick="selectMarker(this)">CLU</button>
-      <button type="button" class="action-btn" onclick="selectMarker(this)">SHIROU</button>
-      <button type="button" class="action-btn" onclick="selectMarker(this)">IRIS</button>
-      <button type="button" class="action-btn" onclick="selectMarker(this)">DREKI</button>
+      <button class="action-btn active" onclick="selectMarker(this)" style="background:#1a1a1a; color:#fff; border:1px solid #333; padding:6px 4px; font-size:9px; border-radius:4px; cursor:pointer;">Phantom</button>
+      <button class="action-btn" onclick="selectMarker(this)" style="background:#1a1a1a; color:#aaa; border:1px solid #222; padding:6px 4px; font-size:9px; border-radius:4px; cursor:pointer;">Dream</button>
+      <button class="action-btn" onclick="selectMarker(this)" style="background:#1a1a1a; color:#aaa; border:1px solid #222; padding:6px 4px; font-size:9px; border-radius:4px; cursor:pointer;">Ice Wall</button>
+      <button class="action-btn" onclick="selectMarker(this)" style="background:#1a1a1a; color:#aaa; border:1px solid #222; padding:6px 4px; font-size:9px; border-radius:4px; cursor:pointer;">Moco</button>
     </div>
   </div>
 
   <!-- 02 AIMPOINT -->
   <div class="feature-card">
     <div class="feature-header">
-      <span class="feature-title">02 AIMPOINT <span style="background:#222; font-size:8px; padding:2px 4px; border-radius:2px; color:#aaa; margin-left:4px;">NEW</span></span>
-      <label class="switch">
-        <input type="checkbox" checked>
-        <span class="slider"></span>
-      </label>
+      <span class="feature-title">02 AIMPOINT</span>
+      <label class="switch"><input type="checkbox" checked><span class="slider"></span></label>
     </div>
-    <div class="feature-desc">moves your aim from the chest toward the head. slide to choose how far.</div>
-
-    <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 15px; margin-bottom: 10px;">
-      <span style="font-size: 9px; color: #777; font-weight: bold;">AIM HEIGHT</span>
-      <span style="color: #ff4757; font-weight: bold; font-size: 16px;">HEAD <span id="aim-val-display" style="font-size: 20px;">100%</span></span>
-    </div>
-
-    <!-- Interactive Vertical Aim Height Slider Container -->
-    <div style="display: flex; gap: 20px; align-items: center; background: #0c0c0c; padding: 12px; border-radius: 4px; border: 1px solid #1a1a1a;">
-      <!-- Body Silhouette with Head Highlight -->
-      <div style="position: relative; width: 45px; height: 110px; border: 1px dashed #ff4757; border-radius: 4px; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; padding-top: 6px;">
-        <div style="width: 14px; height: 14px; border: 2px solid #ff4757; border-radius: 2px; background: repeating-linear-gradient(45deg, #ff4757, #ff4757 2px, transparent 2px, transparent 4px);"></div>
-        <div style="width: 2px; height: 60px; background: linear-gradient(to bottom, #ff4757, #333); margin-top: 4px;"></div>
-        <div style="width: 20px; height: 10px; border-bottom: 2px solid #ff4757;"></div>
-      </div>
-
-      <!-- Vertical Slider & Labels -->
-      <div style="flex-grow: 1; display: flex; position: relative; height: 110px; align-items: center;">
-        <input type="range" id="aim-height-range" min="0" max="100" value="100" style="position: absolute; width: 110px; height: 4px; transform: rotate(-90deg); transform-origin: 55px 55px; left: -35px; top: 0; accent-color: #ff4757; cursor: pointer;">
-        
-        <div style="margin-left: 60px; display: flex; flex-direction: column; justify-content: space-between; height: 100%; font-size: 9px; color: #666; font-weight: bold;">
-          <div style="color: #ff4757; display: flex; justify-content: space-between; width: 140px;"><span>— HEAD</span><span>100%</span></div>
-          <div style="display: flex; justify-content: space-between; width: 140px;"><span>— NECK</span><span>68%</span></div>
-          <div style="display: flex; justify-content: space-between; width: 140px;"><span>— SHOULDERS</span><span>50%</span></div>
-          <div style="display: flex; justify-content: space-between; width: 140px;"><span>— UPPER CHEST</span><span>30%</span></div>
-          <div style="display: flex; justify-content: space-between; width: 140px;"><span>— CHEST</span><span>0%</span></div>
-        </div>
-      </div>
-    </div>
+    <div class="feature-desc">locks crosshair smoothly on target.</div>
   </div>
 
-  <!-- 03 AIM LAG -->
+  <!-- 03 FOV -->
   <div class="feature-card">
     <div class="feature-header">
-      <span class="feature-title">03 AIM LAG</span>
-      <label class="switch">
-        <input type="checkbox" checked>
-        <span class="slider"></span>
-      </label>
+      <span class="feature-title">03 FOV</span>
+      <label class="switch"><input type="checkbox"><span class="slider"></span></label>
     </div>
-    <div class="feature-desc">freezes the enemy for a moment while you fire or scope, so they're easier to hit.</div>
-    <div style="margin-top: 12px; background: #0e0e0e; padding: 8px 12px; border-radius: 4px; display: flex; flex-direction: column; gap: 8px;">
-      <div style="display: flex; justify-content: space-between; align-items: center; font-size: 11px; color: #ccc;">
-        <span>when firing</span>
-        <label class="switch"><input type="checkbox"><span class="slider"></span></label>
-      </div>
-      <div style="display: flex; justify-content: space-between; align-items: center; font-size: 11px; color: #ccc;">
-        <span>when scoping</span>
-        <label class="switch"><input type="checkbox" checked><span class="slider"></span></label>
-      </div>
-    </div>
+    <div class="feature-desc">extends camera field of view.</div>
   </div>
 
   <!-- 04 FAST REVIVE -->
   <div class="feature-card">
     <div class="feature-header">
       <span class="feature-title">04 FAST REVIVE</span>
-      <label class="switch">
-        <input type="checkbox" checked>
-        <span class="slider"></span>
-      </label>
+      <label class="switch"><input type="checkbox" checked><span class="slider"></span></label>
     </div>
-    <div class="feature-desc">picks up a knocked teammate in about 0.1 s instead of 3 s.</div>
+    <div class="feature-desc">picks up a knocked teammate instantly.</div>
   </div>
 </div>
             <div id="manage-screen" class="screen">
-            <!-- Telegram Channel Direct Link Card -->
-  <div style="background: #121212; border: 1px solid #1f1f1f; border-radius: 6px; padding: 14px; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center; cursor: pointer;" onclick="window.open('https://t.me/+rd5guGEUyR41MzA1', '_blank')">
-    <div style="display: flex; align-items: center; gap: 10px;">
-      <span style="font-size: 16px;">📢</span>
-      <div>
-        <div style="font-weight: bold; font-size: 12px; color: #fff; letter-spacing: 0.5px;">PAID_PUSH 💯</div>
-        <div style="font-size: 9px; color: #777; margin-top: 2px;">Open official telegram channel</div>
-      </div>
-    </div>
-    <div style="color: #888; font-size: 12px; font-weight: bold;">➔</div>
-  </div>
-                <div class="feature-card">
-                    <div style="font-size:8px; color:#888;">THIS DEVICE</div>
-                    <div id="manage-device-name" style="font-size:12px; font-weight:bold; margin:4px 0;">-</div>
-                    <button class="action-btn" onclick="resetDevice()" style="background:#1a1a1a; color:#fff; border:1px solid #333; font-size:11px;">RESET DEVICE HWID</button>
-                </div>
-                <button class="action-btn" onclick="logout()" style="background:#3a1515; color:#ff6b6b; font-size:12px;">LOG OUT</button>
-            </div>
+    <!-- Telegram Channel Direct Link Card -->
+    <div style="background: #121212; border: 1px solid #1f1f1f; border-radius: 6px; padding: 14px; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center; cursor: pointer;" onclick="window.open('https://t.me/+rd5guGEUyR41MzA1', '_blank')">
+      <div style="display: flex; align-items: center; gap: 10px;">
+        <span style="font-size: 16px;">📢</span>
+        <div>
+          <div style="font-weight: bold; font-size: 12px; color: #fff; letter-spacing: 0.5px;">PAID_PUSH 💯</div>
+          <div style="font-size: 9px; color: #777; margin-top: 2px;">Open official telegram channel</div>
         </div>
+      </div>
+      <div style="color: #888; font-size: 12px; font-weight: bold;">➔</div>
+    </div>
+
+    <div class="feature-card">
+      <div style="font-size:8px; color:#888;">THIS DEVICE</div>
+      <div id="manage-device-name" style="font-size:12px; font-weight:bold; margin:4px 0;">-</div>
+      <button class="action-btn" onclick="resetDevice()" style="background:#1a1a1a; color:#fff; width:100%; padding:10px; font-weight:bold; margin-bottom:8px; border-radius:4px; border:1px solid #333; cursor:pointer;">RESET DEVICE</button>
+      <button class="action-btn" onclick="logout()" style="background:#3a1515; color:#ff6b6b; width:100%; padding:10px; font-weight:bold; border-radius:4px; border:1px solid #4a1e1e; cursor:pointer;">LOGOUT</button>
+    </div>
+  </div>
         <div class="nav-bar" id="bottom-nav" style="display:none;">
             <button class="nav-item active" onclick="switchTab('home', this)">HOME</button>
             <button class="nav-item" onclick="switchTab('features', this)">FEATURES</button>
