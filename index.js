@@ -2,42 +2,49 @@ const express = require('express');
 const session = require('express-session');
 const helmet = require('helmet');
 const sqlite3 = require('sqlite3').verbose();
-const db = new sqlite3.Database('./database.db', (err) => {
-  if (err) {
-    console.error('Database opening error: ' + err.message);
-  } else {
-    console.log('Connected to the SQLite database.');
-  }
-});
 const rateLimit = require('express-rate-limit');
 
 const app = express();
-const db = new Database('drake.db');
 
-db.exec(`
-  CREATE TABLE IF NOT EXISTS keys (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    key_code TEXT UNIQUE,
-    duration_value REAL,
-    duration_type TEXT,
-    activated_date TEXT,
-    expiry_date TEXT,
-    device_info TEXT,
-    status TEXT DEFAULT 'unused'
-  );
+// Single Database Connection
 
-  CREATE TABLE IF NOT EXISTS admins (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    username TEXT UNIQUE,
-    password TEXT
-  );
-`);
 
-const adminCheck = db.prepare('SELECT * FROM admins WHERE username = ?').get('admin');
-if (!adminCheck) {
-  db.prepare('INSERT INTO admins (username, password) VALUES (?, ?)').run('admin', 'admin123');
-}
-
+// Tables Creation
+db.serialize(() => {
+  db.exec(`
+    CREATE TABLE IF NOT EXISTS keys (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      key_code TEXT UNIQUE,
+      duration_value REAL,
+      duration_type TEXT,
+      activated_date TEXT,
+      expiry_date TEXT,
+      device_info TEXT,
+      status TEXT DEFAULT 'unused'
+    );
+    CREATE TABLE IF NOT EXISTS admins (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      username TEXT UNIQUE,
+      password TEXT
+    );
+  `, (err) => {
+    if (err) {
+      console.error("Table creation error: " + err.message);
+    } else {
+      // Default Admin Check
+      db.get('SELECT * FROM admins WHERE username = ?', ['admin'], (err, row) => {
+        if (!row) {
+          const stmt = db.prepare('INSERT INTO admins (username, password) VALUES (?, ?)');
+          stmt.run('admin', 'admin123', (insertErr) => {
+            if (insertErr) console.error(insertErr);
+            else console.log('Default admin created (Username: admin, Password: admin123)');
+          });
+          stmt.finalize();
+        }
+      });
+    }
+  });
+});
 const verifyLimiter = rateLimit({
     windowMs: 1 * 60 * 1000,
     max: 5,
@@ -52,7 +59,9 @@ app.use(session({
     resave: false,
     saveUninitialized: false,
     cookie: { secure: false, httpOnly: true, sameSite: 'strict' }
-}));const htmlPage = `<!DOCTYPE html>
+}));
+
+const htmlPage = `<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
