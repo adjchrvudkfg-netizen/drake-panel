@@ -108,5 +108,26 @@ app.post('/api/admin/list-keys', (req, res) => {
   }
   res.json({ success: true, keys: db.keys });
 });
+// --- Baki saare purane routes (verify-key, generate-key, etc.) ---
 
-app.listen(3000, () => console.log('DRAKE Server running on http://localhost:3000'));
+// NEW: Happ Proxy App Subscription Endpoint
+app.get('/api/sub/:key', (req, res) => {
+  const { key } = req.params;
+  const db = readData();
+  const foundKey = db.keys.find(k => k.key === key.trim());
+
+  if (!foundKey) {
+    return res.status(404).send("Invalid Key");
+  }
+
+  // Happ proxy configs format
+  const config = `vless://drake-user@127.0.0.1:443?type=tcp&security=none#DRAKE-${key}`;
+  const base64Config = Buffer.from(config).toString('base64');
+  
+  res.setHeader('Content-Type', 'text/plain');
+  res.send(base64Config);
+});
+
+// Server Listen (Yeh sabse niche hota hai)
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => console.log(`DRAKE Server running on port ${PORT}`));

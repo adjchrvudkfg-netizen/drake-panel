@@ -19,7 +19,7 @@
 
     <div class="content">
       <div style="display: flex; justify-content: space-between; font-size: 11px; color: var(--text-sub); margin-bottom: 20px;">
-        <span>■ OFFLINE</span>
+        <span>■ ONLINE</span>
         <span>LAST REFRESHED JUST NOW</span>
       </div>
 
@@ -67,7 +67,7 @@
       <div class="card" style="background: #ffffff; color: #000; display: flex; justify-content: space-between; align-items: center; padding: 18px; cursor: pointer;" onclick="openHappProxyApp()">
         <div>
           <div style="font-family: 'Teko', sans-serif; font-size: 22px; line-height: 1;">ADD SUBSCRIPTION</div>
-          <div style="font-size: 11px; color: #555;">opens happ proxy app & copies key</div>
+          <div style="font-size: 11px; color: #555;">opens happ proxy app automatically</div>
         </div>
         <div style="background: #e0e0e0; width: 36px; height: 36px; border-radius: 6px; display: flex; justify-content: center; align-items: center; font-size: 24px; font-weight: bold;">+</div>
       </div>
@@ -143,19 +143,18 @@
     function copyKey() {
       const key = document.getElementById("userKey").innerText;
       navigator.clipboard.writeText(key);
-      alert("Key copied to clipboard!");
     }
 
     function openHappProxyApp() {
       const key = document.getElementById("userKey").innerText;
-      navigator.clipboard.writeText(key);
+      const subUrl = `${window.location.origin}/api/sub/${key}`;
       
-      // Direct Happ App intent / custom scheme launcher
-      window.location.href = "happ://";
-      
-      setTimeout(() => {
-        alert("Key copied to clipboard! Open Happ app and click 'Clipboard' button to import.");
-      }, 600);
+      // Copy subscription format to clipboard
+      navigator.clipboard.writeText(subUrl);
+
+      // Deep link to import directly into Happ app
+      const happLink = `happ://add-sub?url=${encodeURIComponent(subUrl)}`;
+      window.location.href = happLink;
     }
   </script>
 </body>
