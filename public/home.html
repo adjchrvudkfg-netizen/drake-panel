@@ -161,14 +161,19 @@
     }
 
     function openHappProxyApp() {
-      const key = document.getElementById("userKey").innerText;
-      const subUrl = `${window.location.origin}/api/sub/${key}`;
+      const key = document.getElementById("userKey").innerText.trim();
+      const subUrl = `${window.location.origin}/sub/${key}`;
       
-      // Copy subscription link to clipboard so Happ app can pull it cleanly
       navigator.clipboard.writeText(subUrl);
 
-      // Deep link to open Happ App
-      window.location.href = `happ://add-sub?url=${encodeURIComponent(subUrl)}`;
+      const happScheme = `happ://import/${subUrl}`;
+      const happUniversalScheme = `happ://add-sub?url=${encodeURIComponent(subUrl)}`;
+
+      window.location.href = happScheme;
+
+      setTimeout(() => {
+        window.location.href = happUniversalScheme;
+      }, 300);
     }
   </script>
 </body>
