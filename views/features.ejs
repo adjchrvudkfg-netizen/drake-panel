@@ -1,0 +1,54 @@
+module.exports = function getFeaturesView() {
+    return `
+    <div id="features-screen" class="screen">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+        <div style="font-weight: bold; font-size: 14px; letter-spacing: 1px; color: #fff;">FEATURES</div>
+        <div style="color: #888; font-size: 11px;">5/5</div>
+      </div>
+      <div style="color: #666; font-size: 10px; margin-bottom: 15px;">changes apply from your next match</div>
+
+      <!-- 01 MARKER -->
+      <div style="background: #121212; border: 1px solid #1f1f1f; border-radius: 6px; padding: 12px; margin-bottom: 10px;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+          <span style="font-weight: bold; font-size: 12px; color: #fff;">01 MARKER</span>
+          <label class="switch"><input type="checkbox" checked><span class="slider"></span></label>
+        </div>
+        <div style="font-size: 9px; color: #777;">marks every enemy on your screen.</div>
+        <div style="font-size:9px; color:#777; margin-top:12px; margin-bottom:6px; text-transform:uppercase;">MARK STYLE</div>
+        <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px;">
+          <button class="action-btn active" onclick="selectMarker(this)" style="background:#1a1a1a; color:#fff; border:1px solid #333; padding:6px 4px; font-size:9px; border-radius:4px; cursor:pointer;">Phantom</button>
+          <button class="action-btn" onclick="selectMarker(this)" style="background:#1a1a1a; color:#aaa; border:1px solid #222; padding:6px 4px; font-size:9px; border-radius:4px; cursor:pointer;">Dream</button>
+          <button class="action-btn" onclick="selectMarker(this)" style="background:#1a1a1a; color:#aaa; border:1px solid #222; padding:6px 4px; font-size:9px; border-radius:4px; cursor:pointer;">Ice Wall</button>
+          <button class="action-btn" onclick="selectMarker(this)" style="background:#1a1a1a; color:#aaa; border:1px solid #222; padding:6px 4px; font-size:9px; border-radius:4px; cursor:pointer;">Moco</button>
+        </div>
+      </div>
+
+      <!-- 02 AIMPOINT -->
+      <div style="background: #121212; border: 1px solid #1f1f1f; border-radius: 6px; padding: 12px; margin-bottom: 10px;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+          <span style="font-weight: bold; font-size: 12px; color: #fff;">02 AIMPOINT</span>
+          <label class="switch"><input type="checkbox" checked><span class="slider"></span></label>
+        </div>
+        <div style="font-size: 9px; color: #777;">locks crosshair smoothly on target.</div>
+      </div>
+
+      <!-- 03 FOV -->
+      <div style="background: #121212; border: 1px solid #1f1f1f; border-radius: 6px; padding: 12px; margin-bottom: 10px;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+          <span style="font-weight: bold; font-size: 12px; color: #fff;">03 FOV</span>
+          <label class="switch"><input type="checkbox"><span class="slider"></span></label>
+        </div>
+        <div style="font-size: 9px; color: #777;">extends camera field of view.</div>
+      </div>
+
+      <!-- 04 FAST REVIVE -->
+      <div style="background: #121212; border: 1px solid #1f1f1f; border-radius: 6px; padding: 12px; margin-bottom: 10px;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+          <span style="font-weight: bold; font-size: 12px; color: #fff;">04 FAST REVIVE</span>
+          <label class="switch"><input type="checkbox" checked><span class="slider"></span></label>
+        </div>
+        <div style="font-size: 9px; color: #777;">picks up a knocked teammate instantly.</div>
+      </div>
+    </div>
+    `;
+};
