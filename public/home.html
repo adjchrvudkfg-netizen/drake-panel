@@ -23,7 +23,7 @@
         <span>LAST REFRESHED JUST NOW</span>
       </div>
 
-      <!-- Ring Countdown Timer -->
+      <!-- Live Countdown Ring Timer -->
       <div style="display: flex; justify-content: center; margin-bottom: 24px; position: relative;">
         <svg width="220" height="220" viewBox="0 0 200 200">
           <circle cx="100" cy="100" r="85" stroke="#1c2029" stroke-width="6" fill="none" />
@@ -33,7 +33,7 @@
           <svg width="40" height="40" viewBox="0 0 100 100" fill="none">
             <path d="M50 10 C30 10 15 25 15 50 L15 85 L27 75 L38 85 L50 75 L62 85 L73 75 L85 85 L85 50 C85 25 70 10 50 10 Z" fill="#E0E0E0"/>
           </svg>
-          <div style="font-family: 'Teko', sans-serif; font-size: 32px; line-height: 1; margin-top: 6px;" id="timeLeft">--</div>
+          <div style="font-family: 'Teko', sans-serif; font-size: 30px; line-height: 1; margin-top: 6px;" id="timeLeft">--</div>
           <div style="font-size: 10px; color: var(--text-sub); letter-spacing: 2px;">TIME LEFT</div>
         </div>
       </div>
@@ -63,11 +63,11 @@
         </div>
       </div>
 
-      <!-- Action Box -->
-      <div class="card" style="background: #ffffff; color: #000; display: flex; justify-content: space-between; align-items: center; padding: 18px;">
+      <!-- Add Subscription Button (Opens Happ Proxy App) -->
+      <div class="card" style="background: #ffffff; color: #000; display: flex; justify-content: space-between; align-items: center; padding: 18px; cursor: pointer;" onclick="openHappProxyApp()">
         <div>
           <div style="font-family: 'Teko', sans-serif; font-size: 22px; line-height: 1;">ADD SUBSCRIPTION</div>
-          <div style="font-size: 11px; color: #555;">opens your app with your key ready</div>
+          <div style="font-size: 11px; color: #555;">opens happ proxy app with your key ready</div>
         </div>
         <div style="background: #e0e0e0; width: 36px; height: 36px; border-radius: 6px; display: flex; justify-content: center; align-items: center; font-size: 24px; font-weight: bold;">+</div>
       </div>
@@ -91,50 +91,50 @@
   </div>
 
   <script>
-    // LocalStorage se data load karein jo login ke waqt save hua tha
     const dataStr = localStorage.getItem("drake_key_data");
     
     if(dataStr) {
       const keyData = JSON.parse(dataStr);
       
-      // 1. Set Key
       document.getElementById("userKey").innerText = keyData.key || "N/A";
 
-      // 2. Set Activated Date
       if(keyData.activatedAt) {
         document.getElementById("actDate").innerText = new Date(keyData.activatedAt).toLocaleDateString();
       }
 
-      // 3. Set Expiry & Time Left Countdown
-      if(keyData.expiresAt === "LIFETIME") {
-        document.getElementById("expDate").innerText = "UNLIMITED";
-        document.getElementById("timeLeft").innerText = "LIFETIME";
-      } else if(keyData.expiresAt) {
-        const expDateObj = new Date(keyData.expiresAt);
-        document.getElementById("expDate").innerText = expDateObj.toLocaleDateString();
+      if(keyData.expiresAt) {
+        const expTime = new Date(keyData.expiresAt).getTime();
+        document.getElementById("expDate").innerText = new Date(expTime).toLocaleString();
 
-        const timeLeftMs = keyData.expiresAt - Date.now();
-        if(timeLeftMs > 0) {
-          const totalHours = Math.floor(timeLeftMs / (1000 * 60 * 60));
-          const days = Math.floor(totalHours / 24);
-          const hours = totalHours % 24;
-          
-          if(days > 0) {
-            document.getElementById("timeLeft").innerText = `${days}D ${hours}H`;
+        // Live Countdown Timer Loop
+        function updateTimer() {
+          const now = Date.now();
+          const timeLeftMs = expTime - now;
+
+          if(timeLeftMs > 0) {
+            const totalSecs = Math.floor(timeLeftMs / 1000);
+            const days = Math.floor(totalSecs / (3600 * 24));
+            const hours = Math.floor((totalSecs % (3600 * 24)) / 3600);
+            const mins = Math.floor((totalSecs % 3600) / 60);
+            const secs = totalSecs % 60;
+
+            if(days > 0) {
+              document.getElementById("timeLeft").innerText = `${days}D ${hours}H`;
+            } else {
+              document.getElementById("timeLeft").innerText = `${hours}H ${mins}M ${secs}S`;
+            }
           } else {
-            document.getElementById("timeLeft").innerText = `${hours} HOURS`;
+            document.getElementById("timeLeft").innerText = "EXPIRED";
           }
-        } else {
-          document.getElementById("timeLeft").innerText = "EXPIRED";
         }
+        updateTimer();
+        setInterval(updateTimer, 1000);
       }
 
-      // 4. Set Device Name
       if(keyData.device) {
         document.getElementById("deviceName").innerText = keyData.device;
       }
     } else {
-      // Agar seedha home.html khol liya bina login kiye
       window.location.href = "index.html";
     }
 
@@ -142,6 +142,19 @@
       const key = document.getElementById("userKey").innerText;
       navigator.clipboard.writeText(key);
       alert("Key copied to clipboard!");
+    }
+
+    // Open Happ Proxy App & Copy Key for subscription
+    function openHappProxyApp() {
+      const key = document.getElementById("userKey").innerText;
+      navigator.clipboard.writeText(key);
+      
+      // Try launching Happ Proxy App via custom scheme or fallback to universal intent
+      window.location.href = "happ://";
+      
+      setTimeout(() => {
+        alert("Key copied! If Happ Proxy App didn't open automatically, please open it manually and paste your key.");
+      }, 500);
     }
   </script>
 </body>

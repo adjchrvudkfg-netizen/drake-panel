@@ -57,12 +57,13 @@ app.post('/api/verify-key', (req, res) => {
   res.json({ success: true, keyData: foundKey });
 });
 
-// 2. GENERATE KEYS (Admin Bulk Generation)
+// 2. GENERATE KEYS (Admin Bulk Generation with Hours/Days support)
 app.post('/api/admin/generate-key', (req, res) => {
-  const { count, durationDays } = req.body;
+  const { count, durationValue, durationType } = req.body;
   const db = readData();
 
   const numKeys = parseInt(count) || 1;
+  const val = parseInt(durationValue) || 1;
   const generatedKeys = [];
 
   const randPart = () => Math.random().toString(36).substring(2, 6).toUpperCase();
@@ -70,11 +71,14 @@ app.post('/api/admin/generate-key', (req, res) => {
   for (let i = 0; i < numKeys; i++) {
     const newKey = `DRAKE-${randPart()}-${randPart()}-${randPart()}`;
 
-    let expiresAt = "LIFETIME";
-    if (durationDays !== "LIFETIME") {
-      const days = parseInt(durationDays);
-      expiresAt = Date.now() + (days * 24 * 60 * 60 * 1000);
+    let msToAdd = 0;
+    if (durationType === 'hours') {
+      msToAdd = val * 60 * 60 * 1000;
+    } else if (durationType === 'days') {
+      msToAdd = val * 24 * 60 * 60 * 1000;
     }
+
+    const expiresAt = Date.now() + msToAdd;
 
     const keyObj = {
       key: newKey,
@@ -90,7 +94,15 @@ app.post('/api/admin/generate-key', (req, res) => {
   res.json({ success: true, keys: generatedKeys });
 });
 
-// List Keys without PIN requirement for easy admin usage
+// Admin Login Verify Route
+app.post('/api/admin/login', (req, res) => {
+  const { username, password } = req.body;
+  if (username === "admin" && password === "admin1234") {
+    return res.json({ success: true });
+  }
+  res.json({ success: false, message: "Invalid Username or Password!" });
+});
+
 app.get('/api/admin/list-keys', (req, res) => {
   const db = readData();
   res.json({ success: true, keys: db.keys });

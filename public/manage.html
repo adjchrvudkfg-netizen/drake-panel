@@ -18,7 +18,7 @@
     </div>
 
     <div class="content">
-      <!-- Hardware Lock Card (Dynamic based on login) -->
+      <!-- Hardware Lock Card -->
       <div class="card">
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
           <span style="font-size: 10px; color: var(--text-sub);">THIS DEVICE</span>
@@ -62,6 +62,15 @@
         </div>
         <div>↗</div>
       </div>
+
+      <!-- Logout Button -->
+      <div class="card" style="display: flex; justify-content: space-between; align-items: center; cursor: pointer; border: 1px solid #ff4d4d; background: rgba(255, 77, 77, 0.05);" onclick="logoutUser()">
+        <div style="display: flex; align-items: center; gap: 12px;">
+          <div style="background: rgba(255, 77, 77, 0.2); width: 32px; height: 32px; border-radius: 6px; display: flex; justify-content: center; align-items: center; font-weight: 700; color: #ff4d4d;">🚪</div>
+          <span style="font-family: 'Teko', sans-serif; font-size: 20px; color: #ff4d4d;">LOGOUT</span>
+        </div>
+        <div style="color: #ff4d4d;">➔</div>
+      </div>
     </div>
 
     <!-- Bottom Navigation -->
@@ -82,13 +91,11 @@
   </div>
 
   <script>
-    // LocalStorage se key data read karein jo login ke time save hua tha
     const dataStr = localStorage.getItem("drake_key_data");
     
     if(dataStr) {
       const keyData = JSON.parse(dataStr);
 
-      // Device Name Display
       if(keyData.device) {
         document.getElementById("deviceNameDisplay").innerText = keyData.device.toUpperCase();
         document.getElementById("deviceOS").innerText = keyData.device.includes("iOS") || keyData.device.includes("iPhone") ? "iOS" : "Android / PC";
@@ -97,10 +104,8 @@
         document.getElementById("deviceOS").innerText = "Verified Session";
       }
 
-      // Unique Token Display
       document.getElementById("deviceToken").innerText = keyData.key ? "KEY: " + keyData.key : "2zd29jp7697olnld";
 
-      // Reset Info based on Expiry
       if(keyData.expiresAt && keyData.expiresAt !== "LIFETIME") {
         const expDate = new Date(keyData.expiresAt).toLocaleDateString();
         document.getElementById("resetInfo").innerText = "EXPIRY / RESET: " + expDate;
@@ -108,7 +113,12 @@
         document.getElementById("resetInfo").innerText = "LIFETIME ACCESS - NO RESET REQUIRED";
       }
     } else {
-      // Agar bina login kiye direct khola ho
+      window.location.href = "index.html";
+    }
+
+    // Logout Function
+    function logoutUser() {
+      localStorage.removeItem("drake_key_data");
       window.location.href = "index.html";
     }
   </script>
