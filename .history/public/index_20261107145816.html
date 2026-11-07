@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DRAKE - Login</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <div class="mobile-container">
+    <div style="position: absolute; top: 16px; right: 20px;">
+      <button class="icon-btn">🌐 EN</button>
+    </div>
+
+    <div style="flex: 1; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 30px; text-align: center;">
+      
+      <!-- Ghost Logo -->
+      <div style="position: relative; margin-bottom: 20px;">
+        <svg width="120" height="120" viewBox="0 0 100 100" fill="none">
+          <path d="M50 10 C30 10 15 25 15 50 L15 85 L27 75 L38 85 L50 75 L62 85 L73 75 L85 85 L85 50 C85 25 70 10 50 10 Z" fill="#E0E0E0"/>
+          <path d="M30 40 L42 45 L30 52 Z" fill="#0D0F12"/>
+          <path d="M70 40 L58 45 L70 52 Z" fill="#0D0F12"/>
+          <path d="M42 62 L50 56 L58 62 L50 68 Z" fill="#0D0F12"/>
+        </svg>
+      </div>
+
+      <h1 style="font-family: 'Teko', sans-serif; font-size: 42px; letter-spacing: 4px;">DRAKE</h1>
+      <p style="color: var(--text-sub); font-size: 12px; letter-spacing: 1px; margin-bottom: 30px;">NO ACCOUNT. NO PASSWORD. JUST YOUR KEY.</p>
+
+      <div style="width: 100%; text-align: left; margin-bottom: 6px;">
+        <span style="font-size: 11px; color: var(--text-sub); letter-spacing: 1px;">■ ACCESS KEY</span>
+      </div>
+
+      <div style="width: 100%; display: flex; gap: 8px; margin-bottom: 12px;">
+        <input type="text" id="keyInput" placeholder="DRAKE-XXXX-XXXX-XXXX" style="flex: 1; background: var(--card-bg); border: 1px solid var(--card-border); color: #fff; padding: 14px; border-radius: 8px; font-weight: 700; outline: none; text-transform: uppercase;">
+        <button onclick="pasteKey()" class="icon-btn" style="padding: 0 16px; font-weight: 700;">PASTE</button>
+      </div>
+
+      <div id="errorMsg" style="color: #ff3b30; font-size: 12px; margin-bottom: 12px; display: none;"></div>
+
+      <button onclick="unlockDashboard()" style="width: 100%; background: #ffffff; color: #000000; border: none; padding: 16px; border-radius: 8px; font-weight: 700; font-size: 16px; letter-spacing: 2px; cursor: pointer; text-transform: uppercase;">UNLOCK</button>
+
+      <div style="margin-top: 24px; color: var(--text-sub); font-size: 12px;">
+        no key? contact your seller.<br>
+        <a href="admin.html" style="color: #7a8290; text-decoration: none; font-size: 10px; opacity: 0.5;">[Admin Panel]</a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function pasteKey() {
+      navigator.clipboard.readText().then(text => {
+        document.getElementById('keyInput').value = text;
+      }).catch(() => {});
+    }
+async function unlockDashboard() {
+      const key = document.getElementById('keyInput').value.trim();
+      const errDiv = document.getElementById('errorMsg');
+      errDiv.style.display = "none";
+
+      if(!key) {
+        errDiv.innerText = "Please enter an Access Key.";
+        errDiv.style.display = "block";
+        return;
+      }
+
+      // Simple Device Name Detection
+      const deviceName = navigator.userAgent.includes("Mobile") ? "Mobile Device" : "PC / Desktop Browser";
+
+      try {
+        const response = await fetch('/api/verify-key', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ key, deviceName })
+        });
+
+        const resData = await response.json();
+
+        if (resData.success) {
+          // Key data ko localStorage me save kar lenge taaki home page par dikh sake
+          localStorage.setItem("drake_key_data", JSON.stringify(resData.keyData));
+          window.location.href = "home.html";
+        } else {
+          errDiv.innerText = resData.message;
+          errDiv.style.display = "block";
+        }
+      } catch (e) {
+        errDiv.innerText = "Server connection error!";
+        errDiv.style.display = "block";
+      }
+    }
+  </script>
+</body>
+</html>

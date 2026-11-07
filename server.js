@@ -24,7 +24,7 @@ function writeData(data) {
 
 // 1. VERIFY KEY (User Login)
 app.post('/api/verify-key', (req, res) => {
-  const { key } = req.body;
+  const { key, deviceName } = req.body;
   const db = readData();
   const foundKey = db.keys.find(k => k.key === key.trim());
 
@@ -32,48 +32,69 @@ app.post('/api/verify-key', (req, res) => {
     return res.json({ success: false, message: "Invalid Key! Contact Admin." });
   }
 
-  // Expiry Check (If not lifetime)
-  if (foundKey.expiresAt !== "LIFETIME") {
-    const now = Date.now();
-    if (now > foundKey.expiresAt) {
-      return res.json({ success: false, message: "Key Expired!" });
+  const now = Date.now();
+
+  // Agar key pehle se activate nahi hui hai, toh activation date set karein
+  if (!foundKey.activatedAt) {
+    foundKey.activatedAt = now;
+    
+    // Agar lifetime nahi hai, toh duration ke hisab se expiry set karein
+    if (foundKey.durationDays && foundKey.durationDays !== "LIFETIME") {
+      const days = parseInt(foundKey.durationDays);
+      foundKey.expiresAt = now + (days * 24 * 60 * 60 * 1000);
+    } else {
+      foundKey.expiresAt = "LIFETIME";
     }
+    foundKey.device = deviceName || "Unknown Device";
+    writeData(db);
+  }
+
+  // Expiry Check
+  if (foundKey.expiresAt !== "LIFETIME" && now > foundKey.expiresAt) {
+    return res.json({ success: false, message: "Key Expired!" });
   }
 
   res.json({ success: true, keyData: foundKey });
 });
 
-// 2. GENERATE KEY (Admin Only)
+// 2. GENERATE KEYS (Admin Bulk Generation)
 app.post('/api/admin/generate-key', (req, res) => {
-  const { pin, durationDays } = req.body;
+  const { count, durationDays } = req.body;
   const db = readData();
 
-  if (pin !== db.adminPin) {
-    return res.json({ success: false, message: "Incorrect Admin PIN!" });
-  }
+  const numKeys = parseInt(count) || 1;
+  const generatedKeys = [];
 
-  // Generate random key (e.g. DRAKE-A1B2-C3D4)
   const randPart = () => Math.random().toString(36).substring(2, 6).toUpperCase();
-  const newKey = `DRAKE-${randPart()}-${randPart()}-${randPart()}`;
 
-  let expiresAt = "LIFETIME";
-  if (durationDays !== "LIFETIME") {
-    const days = parseInt(durationDays);
-    expiresAt = Date.now() + (days * 24 * 60 * 60 * 1000);
+  for (let i = 0; i < numKeys; i++) {
+    const newKey = `DRAKE-${randPart()}-${randPart()}-${randPart()}`;
+
+    let expiresAt = "LIFETIME";
+    if (durationDays !== "LIFETIME") {
+      const days = parseInt(durationDays);
+      expiresAt = Date.now() + (days * 24 * 60 * 60 * 1000);
+    }
+
+    const keyObj = {
+      key: newKey,
+      createdAt: new Date().toISOString(),
+      expiresAt: expiresAt
+    };
+
+    db.keys.push(keyObj);
+    generatedKeys.push(newKey);
   }
 
-  const keyObj = {
-    key: newKey,
-    createdAt: new Date().toISOString(),
-    expiresAt: expiresAt
-  };
-
-  db.keys.push(keyObj);
   writeData(db);
-
-  res.json({ success: true, key: newKey, expiresAt });
+  res.json({ success: true, keys: generatedKeys });
 });
 
+// List Keys without PIN requirement for easy admin usage
+app.get('/api/admin/list-keys', (req, res) => {
+  const db = readData();
+  res.json({ success: true, keys: db.keys });
+});
 // 3. GET ALL KEYS (Admin List)
 app.post('/api/admin/list-keys', (req, res) => {
   const { pin } = req.body;

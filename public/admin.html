@@ -15,8 +15,29 @@
 
     <div class="content">
       <div class="card">
-        <div style="font-size: 12px; color: var(--text-sub); margin-bottom: 8px;">ADMIN PIN</div>
-        <input type="password" id="adminPin" value="1234" style="width: 100%; background: #090a0c; border: 1px solid var(--card-border); color: #fff; padding: 10px; border-radius: 6px; margin-bottom: 14px;">
+        <!-- Number of Keys Selection -->
+        <div style="font-size: 12px; color: var(--text-sub); margin-bottom: 8px;">NUMBER OF KEYS TO GENERATE</div>
+        <select id="keyCount" style="width: 100%; background: #090a0c; border: 1px solid var(--card-border); color: #fff; padding: 10px; border-radius: 6px; margin-bottom: 14px;">
+          <option value="1">1 Key</option>
+          <option value="2">2 Keys</option>
+          <option value="3">3 Keys</option>
+          <option value="4">4 Keys</option>
+          <option value="5">5 Keys</option>
+          <option value="6">6 Keys</option>
+          <option value="7">7 Keys</option>
+          <option value="8">8 Keys</option>
+          <option value="9">9 Keys</option>
+          <option value="10" selected>10 Keys</option>
+          <option value="20">20 Keys</option>
+          <option value="30">30 Keys</option>
+          <option value="40">40 Keys</option>
+          <option value="50">50 Keys</option>
+          <option value="60">60 Keys</option>
+          <option value="70">70 Keys</option>
+          <option value="80">80 Keys</option>
+          <option value="90">90 Keys</option>
+          <option value="100">100 Keys</option>
+        </select>
 
         <div style="font-size: 12px; color: var(--text-sub); margin-bottom: 8px;">KEY DURATION</div>
         <select id="keyDuration" style="width: 100%; background: #090a0c; border: 1px solid var(--card-border); color: #fff; padding: 10px; border-radius: 6px; margin-bottom: 14px;">
@@ -26,14 +47,14 @@
           <option value="LIFETIME" selected>Unlimited (Lifetime)</option>
         </select>
 
-        <button onclick="generateKey()" style="width: 100%; background: #fff; color: #000; border: none; padding: 12px; border-radius: 6px; font-weight: 700; cursor: pointer;">GENERATE NEW KEY</button>
+        <button onclick="generateKeys()" style="width: 100%; background: #fff; color: #000; border: none; padding: 12px; border-radius: 6px; font-weight: 700; cursor: pointer; text-transform: uppercase;">GENERATE KEYS</button>
       </div>
 
-      <!-- Generated Key Result -->
+      <!-- Generated Keys Result Box -->
       <div id="resultBox" class="card" style="display: none; background: #181b22;">
-        <div style="font-size: 10px; color: var(--text-sub);">GENERATED KEY</div>
-        <div id="newKeyDisplay" style="font-size: 16px; font-weight: 700; color: #00e5ff; margin: 6px 0;"></div>
-        <button class="icon-btn" onclick="copyGenKey()">COPY KEY</button>
+        <div style="font-size: 10px; color: var(--text-sub); margin-bottom: 6px;">GENERATED KEYS (BULK)</div>
+        <div id="newKeyDisplay" style="font-size: 13px; font-weight: 700; color: #00e5ff; max-height: 120px; overflow-y: auto; margin-bottom: 10px; line-height: 1.6;"></div>
+        <button class="icon-btn" onclick="copyGenKeys()">COPY ALL KEYS</button>
       </div>
 
       <div class="card">
@@ -47,33 +68,28 @@
   </div>
 
   <script>
-    async function generateKey() {
-      const pin = document.getElementById('adminPin').value;
+    async function generateKeys() {
+      const count = document.getElementById('keyCount').value;
       const durationDays = document.getElementById('keyDuration').value;
 
       const res = await fetch('/api/admin/generate-key', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ pin, durationDays })
+        body: JSON.stringify({ count, durationDays })
       });
 
       const data = await res.json();
       if(data.success) {
         document.getElementById('resultBox').style.display = 'block';
-        document.getElementById('newKeyDisplay').innerText = data.key;
+        document.getElementById('newKeyDisplay').innerHTML = data.keys.join('<br>');
         loadKeys();
       } else {
-        alert(data.message);
+        alert("Error generating keys");
       }
     }
 
     async function loadKeys() {
-      const pin = document.getElementById('adminPin').value;
-      const res = await fetch('/api/admin/list-keys', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ pin })
-      });
+      const res = await fetch('/api/admin/list-keys');
       const data = await res.json();
       if(data.success) {
         let html = '';
@@ -88,10 +104,10 @@
       }
     }
 
-    function copyGenKey() {
+    function copyGenKeys() {
       const text = document.getElementById('newKeyDisplay').innerText;
-      navigator.clipboard.readText ? navigator.clipboard.writeText(text) : null;
-      alert("Copied!");
+      navigator.clipboard.writeText(text);
+      alert("All generated keys copied to clipboard!");
     }
 
     loadKeys();

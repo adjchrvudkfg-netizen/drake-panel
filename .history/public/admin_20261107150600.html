@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DRAKE - Admin Panel</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <div class="mobile-container">
+    <div class="header">
+      <h1>ADMIN PANEL</h1>
+    </div>
+
+    <div class="content">
+      <div class="card">
+        <!-- Number of Keys Selection -->
+        <div style="font-size: 12px; color: var(--text-sub); margin-bottom: 8px;">NUMBER OF KEYS TO GENERATE</div>
+        <select id="keyCount" style="width: 100%; background: #090a0c; border: 1px solid var(--card-border); color: #fff; padding: 10px; border-radius: 6px; margin-bottom: 14px;">
+          <option value="1">1 Key</option>
+          <option value="2">2 Keys</option>
+          <option value="3">3 Keys</option>
+          <option value="4">4 Keys</option>
+          <option value="5">5 Keys</option>
+          <option value="6">6 Keys</option>
+          <option value="7">7 Keys</option>
+          <option value="8">8 Keys</option>
+          <option value="9">9 Keys</option>
+          <option value="10" selected>10 Keys</option>
+          <option value="20">20 Keys</option>
+          <option value="30">30 Keys</option>
+          <option value="40">40 Keys</option>
+          <option value="50">50 Keys</option>
+          <option value="60">60 Keys</option>
+          <option value="70">70 Keys</option>
+          <option value="80">80 Keys</option>
+          <option value="90">90 Keys</option>
+          <option value="100">100 Keys</option>
+        </select>
+
+        <div style="font-size: 12px; color: var(--text-sub); margin-bottom: 8px;">KEY DURATION</div>
+        <select id="keyDuration" style="width: 100%; background: #090a0c; border: 1px solid var(--card-border); color: #fff; padding: 10px; border-radius: 6px; margin-bottom: 14px;">
+          <option value="1">1 Day</option>
+          <option value="7">7 Days</option>
+          <option value="30">30 Days</option>
+          <option value="LIFETIME" selected>Unlimited (Lifetime)</option>
+        </select>
+
+        <button onclick="generateKeys()" style="width: 100%; background: #fff; color: #000; border: none; padding: 12px; border-radius: 6px; font-weight: 700; cursor: pointer; text-transform: uppercase;">GENERATE KEYS</button>
+      </div>
+
+      <!-- Generated Keys Result Box -->
+      <div id="resultBox" class="card" style="display: none; background: #181b22;">
+        <div style="font-size: 10px; color: var(--text-sub); margin-bottom: 6px;">GENERATED KEYS (BULK)</div>
+        <div id="newKeyDisplay" style="font-size: 13px; font-weight: 700; color: #00e5ff; max-height: 120px; overflow-y: auto; margin-bottom: 10px; line-height: 1.6;"></div>
+        <button class="icon-btn" onclick="copyGenKeys()">COPY ALL KEYS</button>
+      </div>
+
+      <div class="card">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+          <span style="font-size: 12px; color: var(--text-sub);">ALL CREATED KEYS</span>
+          <button onclick="loadKeys()" class="icon-btn">REFRESH</button>
+        </div>
+        <div id="keyList" style="font-size: 11px; max-height: 250px; overflow-y: auto;"></div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    async function generateKeys() {
+      const count = document.getElementById('keyCount').value;
+      const durationDays = document.getElementById('keyDuration').value;
+
+      const res = await fetch('/api/admin/generate-key', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ count, durationDays })
+      });
+
+      const data = await res.json();
+      if(data.success) {
+        document.getElementById('resultBox').style.display = 'block';
+        document.getElementById('newKeyDisplay').innerHTML = data.keys.join('<br>');
+        loadKeys();
+      } else {
+        alert("Error generating keys");
+      }
+    }
+
+    async function loadKeys() {
+      const res = await fetch('/api/admin/list-keys');
+      const data = await res.json();
+      if(data.success) {
+        let html = '';
+        data.keys.reverse().forEach(k => {
+          const exp = k.expiresAt === "LIFETIME" ? "UNLIMITED" : new Date(k.expiresAt).toLocaleDateString();
+          html += `<div style="padding: 8px 0; border-bottom: 1px solid #1e2229;">
+            <div style="font-weight:700; color:#fff;">${k.key}</div>
+            <div style="color:#7a8290; font-size:10px;">Expires: ${exp}</div>
+          </div>`;
+        });
+        document.getElementById('keyList').innerHTML = html;
+      }
+    }
+
+    function copyGenKeys() {
+      const text = document.getElementById('newKeyDisplay').innerText;
+      navigator.clipboard.writeText(text);
+      alert("All generated keys copied to clipboard!");
+    }
+
+    loadKeys();
+  </script>
+</body>
+</html>

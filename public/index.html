@@ -54,8 +54,7 @@
         document.getElementById('keyInput').value = text;
       }).catch(() => {});
     }
-
-    async function unlockDashboard() {
+async function unlockDashboard() {
       const key = document.getElementById('keyInput').value.trim();
       const errDiv = document.getElementById('errorMsg');
       errDiv.style.display = "none";
@@ -66,17 +65,21 @@
         return;
       }
 
+      // Simple Device Name Detection
+      const deviceName = navigator.userAgent.includes("Mobile") ? "Mobile Device" : "PC / Desktop Browser";
+
       try {
         const response = await fetch('/api/verify-key', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ key })
+          body: JSON.stringify({ key, deviceName })
         });
 
         const resData = await response.json();
 
         if (resData.success) {
-          localStorage.setItem("drake_active_key", key);
+          // Key data ko localStorage me save kar lenge taaki home page par dikh sake
+          localStorage.setItem("drake_key_data", JSON.stringify(resData.keyData));
           window.location.href = "home.html";
         } else {
           errDiv.innerText = resData.message;
