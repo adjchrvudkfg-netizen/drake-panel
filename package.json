@@ -1,16 +1,24 @@
 {
   "name": "drake-panel",
   "version": "1.0.0",
-  "description": "Subscription web dashboard",
-  "main": "index.js",
+  "description": "Drake Panel Server",
+  "main": "server.js",
   "scripts": {
-    "start": "node index.js"
+    "start": "node server.js"
   },
   "dependencies": {
-    "express": "^4.19.2",
-    "express-session": "^1.18.0",
-    "express-rate-limit": "^7.1.5",
-    "sqlite3": "^5.1.7",
-    "helmet": "^7.1.0"
-  }
+    "express": "^4.22.3"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/adjchrvudkfg-netizen/drake-panel.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/adjchrvudkfg-netizen/drake-panel/issues"
+  },
+  "homepage": "https://github.com/adjchrvudkfg-netizen/drake-panel#readme"
 }

@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DRAKE - Admin Panel</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <div class="mobile-container">
+    <div class="header">
+      <h1>ADMIN PANEL</h1>
+    </div>
+
+    <div class="content">
+      <div class="card">
+        <div style="font-size: 12px; color: var(--text-sub); margin-bottom: 8px;">ADMIN PIN</div>
+        <input type="password" id="adminPin" value="1234" style="width: 100%; background: #090a0c; border: 1px solid var(--card-border); color: #fff; padding: 10px; border-radius: 6px; margin-bottom: 14px;">
+
+        <div style="font-size: 12px; color: var(--text-sub); margin-bottom: 8px;">KEY DURATION</div>
+        <select id="keyDuration" style="width: 100%; background: #090a0c; border: 1px solid var(--card-border); color: #fff; padding: 10px; border-radius: 6px; margin-bottom: 14px;">
+          <option value="1">1 Day</option>
+          <option value="7">7 Days</option>
+          <option value="30">30 Days</option>
+          <option value="LIFETIME" selected>Unlimited (Lifetime)</option>
+        </select>
+
+        <button onclick="generateKey()" style="width: 100%; background: #fff; color: #000; border: none; padding: 12px; border-radius: 6px; font-weight: 700; cursor: pointer;">GENERATE NEW KEY</button>
+      </div>
+
+      <!-- Generated Key Result -->
+      <div id="resultBox" class="card" style="display: none; background: #181b22;">
+        <div style="font-size: 10px; color: var(--text-sub);">GENERATED KEY</div>
+        <div id="newKeyDisplay" style="font-size: 16px; font-weight: 700; color: #00e5ff; margin: 6px 0;"></div>
+        <button class="icon-btn" onclick="copyGenKey()">COPY KEY</button>
+      </div>
+
+      <div class="card">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+          <span style="font-size: 12px; color: var(--text-sub);">ALL CREATED KEYS</span>
+          <button onclick="loadKeys()" class="icon-btn">REFRESH</button>
+        </div>
+        <div id="keyList" style="font-size: 11px; max-height: 250px; overflow-y: auto;"></div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    async function generateKey() {
+      const pin = document.getElementById('adminPin').value;
+      const durationDays = document.getElementById('keyDuration').value;
+
+      const res = await fetch('/api/admin/generate-key', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ pin, durationDays })
+      });
+
+      const data = await res.json();
+      if(data.success) {
+        document.getElementById('resultBox').style.display = 'block';
+        document.getElementById('newKeyDisplay').innerText = data.key;
+        loadKeys();
+      } else {
+        alert(data.message);
+      }
+    }
+
+    async function loadKeys() {
+      const pin = document.getElementById('adminPin').value;
+      const res = await fetch('/api/admin/list-keys', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ pin })
+      });
+      const data = await res.json();
+      if(data.success) {
+        let html = '';
+        data.keys.reverse().forEach(k => {
+          const exp = k.expiresAt === "LIFETIME" ? "UNLIMITED" : new Date(k.expiresAt).toLocaleDateString();
+          html += `<div style="padding: 8px 0; border-bottom: 1px solid #1e2229;">
+            <div style="font-weight:700; color:#fff;">${k.key}</div>
+            <div style="color:#7a8290; font-size:10px;">Expires: ${exp}</div>
+          </div>`;
+        });
+        document.getElementById('keyList').innerHTML = html;
+      }
+    }
+
+    function copyGenKey() {
+      const text = document.getElementById('newKeyDisplay').innerText;
+      navigator.clipboard.readText ? navigator.clipboard.writeText(text) : null;
+      alert("Copied!");
+    }
+
+    loadKeys();
+  </script>
+</body>
+</html>
