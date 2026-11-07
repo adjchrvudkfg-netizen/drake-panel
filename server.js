@@ -21,7 +21,6 @@ function readData() {
 function writeData(data) {
   fs.writeFileSync(DB_FILE, JSON.stringify(data, null, 2));
 }
-
 // 1. VERIFY KEY (User Login)
 app.post('/api/verify-key', (req, res) => {
   const { key, deviceName } = req.body;
@@ -34,29 +33,22 @@ app.post('/api/verify-key', (req, res) => {
 
   const now = Date.now();
 
-  // Agar key pehle se activate nahi hui hai, toh activation date set karein
-  if (!foundKey.activatedAt) {
+  // Agar key pehle se activate nahi hui hai ya expiresAt valid number nahi hai
+  if (!foundKey.activatedAt || typeof foundKey.expiresAt !== 'number') {
     foundKey.activatedAt = now;
-    
-    // Agar lifetime nahi hai, toh duration ke hisab se expiry set karein
-    if (foundKey.durationDays && foundKey.durationDays !== "LIFETIME") {
-      const days = parseInt(foundKey.durationDays);
-      foundKey.expiresAt = now + (days * 24 * 60 * 60 * 1000);
-    } else {
-      foundKey.expiresAt = "LIFETIME";
-    }
-    foundKey.device = deviceName || "Unknown Device";
+    // Default 24 hours agar expiry set nahi thi
+    foundKey.expiresAt = foundKey.expiresAt && typeof foundKey.expiresAt === 'number' ? foundKey.expiresAt : (now + (24 * 60 * 60 * 1000));
+    foundKey.device = deviceName || "Mobile Device";
     writeData(db);
   }
 
   // Expiry Check
-  if (foundKey.expiresAt !== "LIFETIME" && now > foundKey.expiresAt) {
+  if (now > foundKey.expiresAt) {
     return res.json({ success: false, message: "Key Expired!" });
   }
 
   res.json({ success: true, keyData: foundKey });
 });
-
 // 2. GENERATE KEYS (Admin Bulk Generation with Hours/Days support)
 app.post('/api/admin/generate-key', (req, res) => {
   const { count, durationValue, durationType } = req.body;

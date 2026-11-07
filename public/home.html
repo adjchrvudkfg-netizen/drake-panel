@@ -63,11 +63,11 @@
         </div>
       </div>
 
-      <!-- Add Subscription Button (Opens Happ Proxy App) -->
+      <!-- Add Subscription Button -->
       <div class="card" style="background: #ffffff; color: #000; display: flex; justify-content: space-between; align-items: center; padding: 18px; cursor: pointer;" onclick="openHappProxyApp()">
         <div>
           <div style="font-family: 'Teko', sans-serif; font-size: 22px; line-height: 1;">ADD SUBSCRIPTION</div>
-          <div style="font-size: 11px; color: #555;">opens happ proxy app with your key ready</div>
+          <div style="font-size: 11px; color: #555;">opens happ proxy app & copies key</div>
         </div>
         <div style="background: #e0e0e0; width: 36px; height: 36px; border-radius: 6px; display: flex; justify-content: center; align-items: center; font-size: 24px; font-weight: bold;">+</div>
       </div>
@@ -99,14 +99,13 @@
       document.getElementById("userKey").innerText = keyData.key || "N/A";
 
       if(keyData.activatedAt) {
-        document.getElementById("actDate").innerText = new Date(keyData.activatedAt).toLocaleDateString();
+        document.getElementById("actDate").innerText = new Date(Number(keyData.activatedAt)).toLocaleDateString();
       }
 
-      if(keyData.expiresAt) {
-        const expTime = new Date(keyData.expiresAt).getTime();
-        document.getElementById("expDate").innerText = new Date(expTime).toLocaleString();
+      if(keyData.expiresAt && !isNaN(Number(keyData.expiresAt))) {
+        const expTime = Number(keyData.expiresAt);
+        document.getElementById("expDate").innerText = new Date(expTime).toLocaleDateString();
 
-        // Live Countdown Timer Loop
         function updateTimer() {
           const now = Date.now();
           const timeLeftMs = expTime - now;
@@ -129,6 +128,9 @@
         }
         updateTimer();
         setInterval(updateTimer, 1000);
+      } else {
+        document.getElementById("expDate").innerText = "UNLIMITED";
+        document.getElementById("timeLeft").innerText = "ACTIVE";
       }
 
       if(keyData.device) {
@@ -144,17 +146,16 @@
       alert("Key copied to clipboard!");
     }
 
-    // Open Happ Proxy App & Copy Key for subscription
     function openHappProxyApp() {
       const key = document.getElementById("userKey").innerText;
       navigator.clipboard.writeText(key);
       
-      // Try launching Happ Proxy App via custom scheme or fallback to universal intent
+      // Direct Happ App intent / custom scheme launcher
       window.location.href = "happ://";
       
       setTimeout(() => {
-        alert("Key copied! If Happ Proxy App didn't open automatically, please open it manually and paste your key.");
-      }, 500);
+        alert("Key copied to clipboard! Open Happ app and click 'Clipboard' button to import.");
+      }, 600);
     }
   </script>
 </body>
