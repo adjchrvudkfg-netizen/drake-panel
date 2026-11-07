@@ -110,24 +110,22 @@ app.post('/api/admin/list-keys', (req, res) => {
 });
 // --- Baki saare purane routes (verify-key, generate-key, etc.) ---
 
-// NEW: Happ Proxy App Subscription Endpoint
-app.get('/api/sub/:key', (req, res) => {
-  const { key } = req.params;
+// Happ Proxy App Direct Subscription Endpoint
+app.get('/sub/:key', (req, res) => {
+  const reqKey = (req.params.key || "").trim().toLowerCase();
   const db = readData();
-  const foundKey = db.keys.find(k => k.key === key.trim());
+
+  const foundKey = db.keys.find(k => k.key && k.key.trim().toLowerCase() === reqKey);
 
   if (!foundKey) {
+    res.setHeader('Content-Type', 'text/plain');
     return res.status(404).send("Invalid Key");
   }
 
-  // Happ proxy configs format
-  const config = `vless://drake-user@127.0.0.1:443?type=tcp&security=none#DRAKE-${key}`;
+  // Proper VLESS link configuration for Happ App
+  const config = `vless://drake-user@127.0.0.1:443?type=tcp&security=none#DRAKE-${foundKey.key}`;
   const base64Config = Buffer.from(config).toString('base64');
-  
-  res.setHeader('Content-Type', 'text/plain');
+
+  res.setHeader('Content-Type', 'text/plain; charset=utf-8');
   res.send(base64Config);
 });
-
-// Server Listen (Yeh sabse niche hota hai)
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => console.log(`DRAKE Server running on port ${PORT}`));
