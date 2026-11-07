@@ -129,3 +129,8 @@ app.get('/sub/:key', (req, res) => {
   res.setHeader('Content-Type', 'text/plain; charset=utf-8');
   res.send(base64Config);
 });
+// Server Listen with 0.0.0.0 for Render stability
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, '0.0.0.0', () => {
+  console.log(`DRAKE Server running on port ${PORT}`);
+});
