@@ -23,11 +23,11 @@
         <span>LAST REFRESHED JUST NOW</span>
       </div>
 
-      <!-- Live Countdown Ring Timer -->
+      <!-- Live Countdown Ring Timer with Dynamic Progress -->
       <div style="display: flex; justify-content: center; margin-bottom: 24px; position: relative;">
         <svg width="220" height="220" viewBox="0 0 200 200">
           <circle cx="100" cy="100" r="85" stroke="#1c2029" stroke-width="6" fill="none" />
-          <circle cx="100" cy="100" r="85" stroke="#ffffff" stroke-width="6" fill="none" stroke-dasharray="534" stroke-dashoffset="120" stroke-linecap="round" />
+          <circle id="progressRing" cx="100" cy="100" r="85" stroke="#ffffff" stroke-width="6" fill="none" stroke-dasharray="534" stroke-dashoffset="0" stroke-linecap="round" style="transition: stroke-dashoffset 1s linear;" />
         </svg>
         <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; flex-direction: column; justify-content: center; align-items: center;">
           <svg width="40" height="40" viewBox="0 0 100 100" fill="none">
@@ -98,17 +98,30 @@
       
       document.getElementById("userKey").innerText = keyData.key || "N/A";
 
+      const actTime = Number(keyData.activatedAt) || Date.now();
       if(keyData.activatedAt) {
-        document.getElementById("actDate").innerText = new Date(Number(keyData.activatedAt)).toLocaleDateString();
+        document.getElementById("actDate").innerText = new Date(actTime).toLocaleDateString();
       }
 
       if(keyData.expiresAt && !isNaN(Number(keyData.expiresAt))) {
         const expTime = Number(keyData.expiresAt);
         document.getElementById("expDate").innerText = new Date(expTime).toLocaleDateString();
 
+        const totalDuration = expTime - actTime; // Total key duration in ms
+
         function updateTimer() {
           const now = Date.now();
           const timeLeftMs = expTime - now;
+
+          // Dynamic Ring Calculation (Circumference = 534)
+          const ring = document.getElementById("progressRing");
+          if(totalDuration > 0) {
+            let progressRatio = timeLeftMs / totalDuration;
+            if(progressRatio < 0) progressRatio = 0;
+            if(progressRatio > 1) progressRatio = 1;
+            const dashOffset = 534 * (1 - progressRatio);
+            ring.style.strokeDashoffset = dashOffset;
+          }
 
           if(timeLeftMs > 0) {
             const totalSecs = Math.floor(timeLeftMs / 1000);
@@ -124,6 +137,7 @@
             }
           } else {
             document.getElementById("timeLeft").innerText = "EXPIRED";
+            ring.style.strokeDashoffset = 534;
           }
         }
         updateTimer();
@@ -143,18 +157,18 @@
     function copyKey() {
       const key = document.getElementById("userKey").innerText;
       navigator.clipboard.writeText(key);
+      alert("Key copied to clipboard!");
     }
 
     function openHappProxyApp() {
       const key = document.getElementById("userKey").innerText;
       const subUrl = `${window.location.origin}/api/sub/${key}`;
       
-      // Copy subscription format to clipboard
+      // Copy subscription link to clipboard so Happ app can pull it cleanly
       navigator.clipboard.writeText(subUrl);
 
-      // Deep link to import directly into Happ app
-      const happLink = `happ://add-sub?url=${encodeURIComponent(subUrl)}`;
-      window.location.href = happLink;
+      // Deep link to open Happ App
+      window.location.href = `happ://add-sub?url=${encodeURIComponent(subUrl)}`;
     }
   </script>
 </body>
